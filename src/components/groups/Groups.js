@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {Button} from 'antd'
+import HeadGroups from './HeadGroups'
+import ListGroups from './ListGroups'
+
 
 class Groups extends Component {
     render() {
         return (
-            <div>
-                <h1>groups</h1>
-            </div>
+           <div className='container'>
+               <HeadGroups/>
+               <ListGroups/>
+           </div>
         )
     }
 }

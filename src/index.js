@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker'
 import {Provider} from 'react-redux'
 import {HashRouter} from 'react-router-dom'
 import storeFactory from './redux/store'
+import './saas/global.scss'
 
 export const store = storeFactory()
 

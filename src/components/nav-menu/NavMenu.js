@@ -7,14 +7,15 @@ import {withRouter} from 'react-router-dom'
 export const NavMenu = ({children, history, location}) =>
     <div>
         <Menu
-            onClick={e => history.push(e.key)}
-            selectedKeys={[location.pathname]}
+            onClick={e => history.push(`/${e.key}`)}
+            selectedKeys={[location.pathname.split('/')[1]]}
+            style={{marginBottom: 20}}
             mode="horizontal"
         >
-            <Menu.Item key='/main/groups'>
+            <Menu.Item key='groups'>
                 <Icon type="team"/>Groups
             </Menu.Item>
-            <Menu.Item key='/main/people'>
+            <Menu.Item key='people'>
                 <Icon type="user"/>People
             </Menu.Item>
         </Menu>
@@ -22,7 +23,7 @@ export const NavMenu = ({children, history, location}) =>
     </div>
 
 NavMenu.propTypes = {
-    children:PropTypes.array
+    children: PropTypes.array
 }
 
 export default withRouter(NavMenu)

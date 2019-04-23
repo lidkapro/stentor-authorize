@@ -1,0 +1,18 @@
+$width-container: 1200px;
+$border: 0.3px solid rgba(0, 0, 0, .1);
+$paper-color:whitesmoke;
+
+@mixin header {
+  background-color: $paper-color;
+  border: $border
+}
+
+.container {
+  max-width: $width-container;
+  margin: auto;
+}
+
+.header {
+  @include header;
+}
+
