@@ -1,6 +1,7 @@
-$width-container: 1200px;
+$width-container: 720px;
 $border: 0.3px solid rgba(0, 0, 0, .1);
-$paper-color:whitesmoke;
+$paper-color: whitesmoke;
+$opacity-time:.3s;
 
 @mixin header {
   background-color: $paper-color;
@@ -10,9 +11,81 @@ $paper-color:whitesmoke;
 .container {
   max-width: $width-container;
   margin: auto;
+  position: relative;
 }
 
 .header {
   @include header;
 }
 
+.groups_enter{
+  animation: appearance $opacity-time;
+}
+
+.group_head_appearance {
+  animation: appearance 1s;
+}
+
+.group_head_disappearance {
+  animation: disappearance $opacity-time forwards;
+}
+
+.group_enter {
+  animation: smooth_moving_down 1s forwards;
+}
+
+.group_exit {
+  animation: group_smooth_moving_up 1s forwards, disappearance $opacity-time forwards;
+  animation-delay: 0s, 1s;
+}
+
+@-webkit-keyframes smooth_moving_down {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes smooth_moving_up {
+  from {
+    transform: translateY(120px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes group_smooth_moving_up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-120px);
+  }
+}
+
+@-webkit-keyframes appearance {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes disappearance {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.authority{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}

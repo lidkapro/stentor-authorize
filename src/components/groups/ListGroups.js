@@ -43,7 +43,7 @@ const data = [{
 class ListGroups extends Component {
     render() {
         return (
-            <Table bordered={true}  columns={columns} dataSource={data}/>
+            <Table size='small' bordered={true}  columns={columns} dataSource={data}/>
         )
     }
 }

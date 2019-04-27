@@ -39,7 +39,7 @@ class AllPeople extends Component {
                     className='header'
                     title={<SearchInput/>}
                     extra={[
-                        <div style={{display:'flex',alignItems:'center'}}>
+                        <div key='1' style={{display:'flex',alignItems:'center'}}>
                             Show
                             <InputNumber
                                 defaultValue={20}
@@ -51,7 +51,7 @@ class AllPeople extends Component {
                         </div>
                     ]}
                 />
-            <Table bordered={true} columns={columns} dataSource={data}/>
+            <Table size='small' bordered={true} columns={columns} dataSource={data}/>
             </div>
         )
     }

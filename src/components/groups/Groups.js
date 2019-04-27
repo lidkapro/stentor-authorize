@@ -6,10 +6,10 @@ import ListGroups from './ListGroups'
 class Groups extends Component {
     render() {
         return (
-           <div className='container'>
-               <HeadGroups/>
-               <ListGroups/>
-           </div>
+            <div className='container groups_enter'>
+                <HeadGroups/>
+                <ListGroups/>
+            </div>
         )
     }
 }

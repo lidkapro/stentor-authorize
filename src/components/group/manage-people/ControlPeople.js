@@ -39,6 +39,7 @@ class ControlPeople extends Component {
         const {renderTitle, handleChange} = this
         return (
             <Card
+                size='small'
                 type='inner'
                 title='Add or remove people from the group'
             >
@@ -47,7 +48,7 @@ class ControlPeople extends Component {
                     showSearch
                     titles={[renderTitle('Not Members'), renderTitle('Members')]}
                     listStyle={{
-                        width: 300,
+                        width: '46%',
                         height: 300,
                     }}
                     targetKeys={this.state.targetKeys}

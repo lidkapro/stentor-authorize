@@ -23,7 +23,7 @@ export const NavMenu = ({children, history, location}) =>
     </div>
 
 NavMenu.propTypes = {
-    children: PropTypes.array
+
 }
 
 export default withRouter(NavMenu)
