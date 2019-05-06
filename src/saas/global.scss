@@ -3,7 +3,7 @@ $border: 0.3px solid rgba(0, 0, 0, .1);
 $paper-color: whitesmoke;
 $opacity-time:.3s;
 
-@mixin header {
+@mixin general {
   background-color: $paper-color;
   border: $border
 }
@@ -15,7 +15,7 @@ $opacity-time:.3s;
 }
 
 .header {
-  @include header;
+  @include general;
 }
 
 .groups_enter{
@@ -88,4 +88,10 @@ $opacity-time:.3s;
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.people_menu{
+  @include general;
+  padding: 1px;
+  flex:1 1 100px;
 }

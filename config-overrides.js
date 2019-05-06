@@ -1,4 +1,4 @@
-const {override, fixBabelImports, addLessLoader} = require('customize-cra')
+const {override, fixBabelImports, addLessLoader, addDecoratorsLegacy, disableEsLint} = require('customize-cra')
 
 module.exports = override(
     fixBabelImports('import', {
@@ -13,4 +13,6 @@ module.exports = override(
             '@link-color': '#1890ff'
         },
     }),
+    addDecoratorsLegacy(),
+    disableEsLint()
 )

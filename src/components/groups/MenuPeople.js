@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import {Menu} from 'antd'
 
-const MenuItemGroup = Menu.ItemGroup;
+const MenuItemGroup = Menu.ItemGroup
 
 
 class MenuPeople extends Component {
     render() {
         return (
             <Menu
-                style={{border: '0.3px solid rgba(0,0,0,.1)',padding:0,background:'whitesmoke',flex:'1 1 100px'}}
+                className='people_menu'
                 mode='inline'
                 defaultSelectedKeys={['0']}
             >

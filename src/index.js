@@ -2,18 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker'
-import {Provider} from 'react-redux'
 import {HashRouter} from 'react-router-dom'
-import storeFactory from './redux/store'
 import './saas/global.scss'
-
-export const store = storeFactory()
+import {Form} from './store/forms/forms'
+import {Provider} from 'mobx-react'
 
 window.React = React
-window.store = store
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider createForm={formName => new Form(formName)}>
         <HashRouter>
             <App/>
         </HashRouter>

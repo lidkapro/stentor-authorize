@@ -32,6 +32,11 @@ const data = [{
 }]
 
 class AllPeople extends Component {
+
+    componentWillReceiveProps(nextProps) {
+        console.log('AllPeople render')
+    }
+
     render() {
         return (
             <div>

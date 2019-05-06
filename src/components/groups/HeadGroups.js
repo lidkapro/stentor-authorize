@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
-import {Button, Icon, PageHeader, Modal, Input} from 'antd'
+import {observer} from 'mobx-react'
+import {Button, Form, Icon, Input, Modal, PageHeader} from 'antd'
 import SearchInput from '../common/SearchInput'
 import {PopupWindow} from '../HOCs/PopupWindow'
 
 
+@observer
 class HeadGroups extends Component {
     render() {
-        const {visible,showModal,handleOk,handleCancel} = this.props
+        const {form, visible, showModal, handleOk,handleCancel} = this.props
         return (
             <PageHeader
                 className='header'
@@ -23,7 +25,9 @@ class HeadGroups extends Component {
                     onOk={handleOk}
                     onCancel={handleCancel}
                 >
-                    <Input placeholder="Enter group name"/>
+                    <Form.Item>
+                        <Input placeholder='Enter name Group'/>
+                    </Form.Item>
                 </Modal>
             </PageHeader>
         )

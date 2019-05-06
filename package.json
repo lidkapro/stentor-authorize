@@ -8,17 +8,17 @@
     "customize-cra": "0.2.12",
     "less": "3.9.0",
     "less-loader": "4.1.0",
+    "mobx": "5.9.4",
+    "mobx-react": "5.4.3",
     "node-sass": "4.11.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",
-    "react-addons-css-transition-group": "^15.6.2",
+    "react-addons-css-transition-group": "15.6.2",
     "react-app-rewired": "2.1.1",
     "react-dom": "16.8.6",
-    "react-redux": "7.0.2",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
-    "react-scripts": "2.1.8",
-    "redux": "4.0.1"
+    "react-scripts": "2.1.8"
   },
   "scripts": {
     "eject": "react-scripts eject",

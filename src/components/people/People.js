@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Card} from 'antd'
 import ListPeoples from './ListPeoples'
 import HeadPeople from './HeadPeople'
 import MenuPeople from '../groups/MenuPeople'
