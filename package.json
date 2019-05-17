@@ -2,6 +2,7 @@
   "name": "stentor-auth",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "proxy": "http://auth.selector.site",
   "dependencies": {
     "antd": "3.16.5",
