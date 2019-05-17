@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import HeadGroups from './HeadGroups'
 import ListGroups from './ListGroups'
-import {inject} from 'mobx-react'
 
-@inject('createForm')
 class Groups extends Component {
     render() {
         return (

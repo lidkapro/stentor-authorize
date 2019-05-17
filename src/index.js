@@ -4,13 +4,22 @@ import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 import {HashRouter} from 'react-router-dom'
 import './saas/global.scss'
-import {Form} from './store/forms/forms'
 import {Provider} from 'mobx-react'
+import axios from 'axios'
+
+
+export const findAllAuthoritiesBegin = () => {
+    axios.post('/graphql', {query: '{findAllAuthorities}'})
+        .then(response => response.data.data.findAllAuthorities)
+        .then(r=>console.log(r))
+}
+
+findAllAuthoritiesBegin()
 
 window.React = React
 
 ReactDOM.render(
-    <Provider createForm={formName => new Form(formName)}>
+    <Provider>
         <HashRouter>
             <App/>
         </HashRouter>

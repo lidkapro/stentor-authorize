@@ -4,7 +4,7 @@ import NavButtons from './NavButtons'
 import {withRouter} from 'react-router-dom'
 
 
-class HeadGroup extends Component {
+class Group extends Component {
     state = {exit: false}
 
     goBack = () => {
@@ -30,6 +30,6 @@ class HeadGroup extends Component {
     }
 }
 
-HeadGroup.propTypes = {}
+Group.propTypes = {}
 
-export default withRouter(HeadGroup)
+export default withRouter(Group)

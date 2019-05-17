@@ -5,7 +5,7 @@ import Groups from './components/groups/Groups'
 import People from './components/people/People'
 import AllPeople from './components/group/all-people/AllPeople'
 import Authorities from './components/group/authorities/Authorities'
-import HeadGroup from './components/group/HeadGroup'
+import HeadGroup from './components/group/Group'
 import ControlPeople from './components/group/manage-people/ControlPeople'
 
 export const GroupsMain = () =>

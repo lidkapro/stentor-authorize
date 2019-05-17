@@ -8,7 +8,7 @@ import {PopupWindow} from '../HOCs/PopupWindow'
 @observer
 class HeadGroups extends Component {
     render() {
-        const {form, visible, showModal, handleOk,handleCancel} = this.props
+        const {visible, showModal, handleOk,handleCancel} = this.props
         return (
             <PageHeader
                 className='header'
