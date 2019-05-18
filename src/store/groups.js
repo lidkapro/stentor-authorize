@@ -1,15 +1,12 @@
 import {observable} from 'mobx'
-
-
+import axios from 'axios/index'
 
 export class Groups {
-    @observable fields = {}
-    @observable error = false
-    @observable loading = false
+    @observable groups = []
 
-    handleChange(nameField, value) {
-        this.fields[nameField].value = value
+    findAllGroups() {
+        axios.post('/graphql', {query: '{findAllAuthorities}'})
+            .then(response => response.data)
+            .then(groups => this.groups = [...this.groups, groups])
     }
-
-
 }

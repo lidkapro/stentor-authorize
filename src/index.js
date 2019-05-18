@@ -10,8 +10,9 @@ import axios from 'axios'
 
 export const findAllAuthoritiesBegin = () => {
     axios.post('/graphql', {query: '{findAllAuthorities}'})
-        .then(response => response.data.data.findAllAuthorities)
-        .then(r=>console.log(r))
+        .then(response => response.data)
+        .then(r => console.log(r))
+        .catch(e=>console.log(e))
 }
 
 findAllAuthoritiesBegin()
