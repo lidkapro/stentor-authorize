@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Icon, PageHeader} from 'antd'
-import {showDeleteConfirm} from './delete-group-confirm'
+import {showDeleteConfirm} from './help-functions/delete-group-confirm'
 
 
 class TitleGroup extends Component {
@@ -9,7 +9,7 @@ class TitleGroup extends Component {
         return (
             <PageHeader
                 onBack={goBack}
-                title={match.params.groupName}
+                title={<h1>{match.params.groupName}</h1>}
                 extra={[
                     <Button key='1' type="danger" onClick={() =>
                         showDeleteConfirm(match.params.groupName, deleteGroup)}>

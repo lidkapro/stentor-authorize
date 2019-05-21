@@ -12,7 +12,7 @@ class HeadGroups extends Component {
         form.validateFields((err, values) => {
             if (!err) {
                 createGroup(values.groupName)
-                form.setFields({groupName:{value:''}})
+                form.setFields({groupName: {value: ''}})
                 handleOk()
             }
         })
@@ -22,32 +22,32 @@ class HeadGroups extends Component {
         const {getFieldDecorator} = this.props.form
         const {visible, showModal, handleCancel} = this.props
         return (
-            <PageHeader
-                className='header'
-                title={<SearchInput/>}
-                extra={[
-                    <Button key='1' onClick={showModal} type='primary'>
-                        <Icon type="usergroup-add"/>Add group
-                    </Button>
-                ]}
-            >
-                <Modal
-                    title="Add group"
-                    visible={visible}
-                    onOk={this.handleSubmit}
-                    onCancel={handleCancel}
+                <PageHeader
+                    className='header'
+                    title={<SearchInput/>}
+                    extra={[
+                        <Button key='1' onClick={showModal} type='primary'>
+                            <Icon type="usergroup-add"/>Add group
+                        </Button>
+                    ]}
                 >
-                    <Form layout='horizontal'>
-                        <Form.Item>
-                            {getFieldDecorator('groupName', {
-                                rules: [{required: true, message: 'Required field'}],
-                            })(
-                                <Input placeholder='Enter name Group'/>
-                            )}
-                        </Form.Item>
-                    </Form>
-                </Modal>
-            </PageHeader>
+                    <Modal
+                        title="Add group"
+                        visible={visible}
+                        onOk={this.handleSubmit}
+                        onCancel={handleCancel}
+                    >
+                        <Form layout='horizontal'>
+                            <Form.Item>
+                                {getFieldDecorator('groupName', {
+                                    rules: [{required: true, message: 'Required field'}],
+                                })(
+                                    <Input placeholder='Enter name Group'/>
+                                )}
+                            </Form.Item>
+                        </Form>
+                    </Modal>
+                </PageHeader>
         )
     }
 }

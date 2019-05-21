@@ -31,19 +31,21 @@ class Group extends Component {
         const {exit} = this.state
         const {children, match} = this.props
         return (
-            <div className='container'>
-                <div className={!exit ? 'group_head_appearance' : 'group_head_disappearance'}>
+            <article className='container'>
+                <header className={!exit ? 'group_head_appearance' : 'group_head_disappearance'}>
                     <TitleGroup
                         match={match}
                         goBack={this.goBack}
                         deleteGroup={this.deleteGroup}
                     />
-                    <NavButtons/>
-                </div>
-                <div className={!exit ? 'group_enter' : 'group_exit'}>
+                    <nav>
+                        <NavButtons/>
+                    </nav>
+                </header>
+                <section className={!exit ? 'group_enter' : 'group_exit'}>
                     {children}
-                </div>
-            </div>
+                </section>
+            </article>
         )
     }
 }

@@ -19,10 +19,10 @@ class Authorities extends Component {
 
     render() {
         const {allAuthorities, authorities} = this.props.group
-        const {group,match} = this.props
+        const {group, match} = this.props
         return (
-            <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between', padding: '0 5%'}}>
-                {Object.keys(allAuthorities).map((letter, i) =>
+            <div className='authorities'>{
+                Object.keys(allAuthorities).map((letter, i) =>
                     <AuthoritiesByLetter
                         key={i}
                         group={group}

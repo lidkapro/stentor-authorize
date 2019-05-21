@@ -19,14 +19,14 @@ class Groups extends Component {
     render() {
         const {groups} = this.props
         return (
-            <div className='container groups_enter'>
+            <main className='container groups_enter'>
                 <HeadGroups createGroup={groups.createGroup}/>
                 <ListGroups
                     groups={groups.list}
                     deleteGroup={groups.deleteGroup}
                     renameGroup={groups.renameGroup}
                 />
-            </div>
+            </main>
         )
     }
 }

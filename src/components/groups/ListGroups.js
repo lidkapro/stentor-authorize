@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Table} from 'antd'
 import {NavLink} from 'react-router-dom'
 import RenameGroupForm from './RenameGroupForm'
-import {showDeleteConfirm} from '../group/delete-group-confirm'
+import {showDeleteConfirm} from '../group/help-functions/delete-group-confirm'
 
 
 class ListGroups extends Component {
@@ -55,7 +55,7 @@ class ListGroups extends Component {
         const {renameGroup} = this.props
         const {oldName, visible} = this.state
         return (
-            <div>
+            <section>
                 <RenameGroupForm
                     visible={visible}
                     oldName={oldName}
@@ -67,7 +67,7 @@ class ListGroups extends Component {
                     bordered={true}
                     columns={this.getColumns()}
                     dataSource={this.getData()}/>
-            </div>
+            </section>
         )
     }
 }

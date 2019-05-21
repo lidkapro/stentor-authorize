@@ -21,14 +21,14 @@ class ManagePeople extends Component {
     }
     renderTitle = title => {
         return (
-            <div>
+            <header>
                 {
                     title === 'Members' ?
                         <Icon style={{marginRight:3}} type="smile" theme="twoTone"/> :
                         <Icon style={{marginRight:3}}  type="frown" theme="twoTone" twoToneColor="#eb2f96"/>
                 }
                 {title}
-            </div>
+            </header>
         )
     }
 

@@ -33,7 +33,11 @@ for (let i = 0; i < 100; i++) {
 class ListPeoples extends Component {
     render() {
         return (
-            <Table size='middle' style={{flex: '3 1 300px'}} columns={columns} dataSource={data}/>
+            <Table
+                size='middle'
+                style={{flex: '3 1 300px'}}
+                columns={columns}
+                dataSource={data}/>
         )
     }
 }

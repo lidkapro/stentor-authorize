@@ -60,7 +60,7 @@ class AllPeople extends Component {
     render() {
         const {pageSize} = this.state
         return (
-            <div>
+            <section>
                 <PageHeader
                     className='header'
                     title={<SearchInput/>}
@@ -84,7 +84,7 @@ class AllPeople extends Component {
                     bordered={true}
                     columns={this.getColumns()}
                     dataSource={this.getData()}/>
-            </div>
+            </section>
         )
     }
 }

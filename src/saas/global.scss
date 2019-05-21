@@ -1,7 +1,7 @@
 $width-container: 720px;
 $border: 0.3px solid rgba(0, 0, 0, .1);
 $paper-color: whitesmoke;
-$opacity-time:.3s;
+$opacity-time: .3s;
 
 @mixin general {
   background-color: $paper-color;
@@ -18,7 +18,7 @@ $opacity-time:.3s;
   @include general;
 }
 
-.groups_enter{
+.groups_enter {
   animation: appearance $opacity-time;
 }
 
@@ -84,14 +84,28 @@ $opacity-time:.3s;
   }
 }
 
-.authority{
+.authority {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.people_menu{
+.all_people_table {
+  display: flex;
+  flex-flow: row nowrap;
+  border: 0.3px solid rgba(0, 0, 0, .1);
+  margin-bottom: 10px
+}
+
+.people_menu {
   @include general;
   padding: 1px;
-  flex:1 1 100px;
+  flex: 1 1 100px;
+}
+
+.authorities {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 0 5%;
 }

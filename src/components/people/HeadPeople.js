@@ -19,7 +19,7 @@ class HeadPeople extends Component {
     }
 
     render() {
-        const {form,visible, showModal, handleCancel} = this.props
+        const {form, visible, showModal, handleCancel} = this.props
         return (
             <PageHeader
                 className='header'
@@ -45,9 +45,7 @@ class HeadPeople extends Component {
                         </Button>,
                     ]}
                 >
-                    <div className=''>
-                        <FormAddPerson form={form}/>
-                    </div>
+                    <FormAddPerson form={form}/>
                 </Modal>
             </PageHeader>
         )

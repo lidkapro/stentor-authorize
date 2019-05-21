@@ -1,6 +1,6 @@
 import {observable, action, runInAction} from 'mobx'
 import axios from 'axios/index'
-import {sortByAlphabet} from '../components/group/sort-authorities'
+import {sortByAlphabet} from '../components/group/help-functions/sort-authorities'
 
 class Group {
     @observable peopleInGroup = []

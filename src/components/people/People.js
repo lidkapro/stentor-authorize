@@ -7,13 +7,13 @@ import MenuPeople from '../groups/MenuPeople'
 class People extends Component {
     render() {
         return (
-            <div className='container'>
+            <main className='container'>
                 <HeadPeople/>
-                <div style={{display: 'flex', flexFlow: 'row nowrap', border: '0.3px solid rgba(0,0,0,.1)',marginBottom:'10px'}}>
+                <section className='all_people_table'>
                     <MenuPeople/>
                     <ListPeoples/>
-                </div>
-            </div>
+                </section>
+            </main>
         )
     }
 }

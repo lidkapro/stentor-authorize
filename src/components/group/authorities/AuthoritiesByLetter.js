@@ -6,10 +6,14 @@ import Authority from './Authority'
 class AuthoritiesByLetter extends Component {
 
     render() {
-        const {group, letter,groupName, authoritiesByLetter} = this.props
+        const {group, letter, groupName, authoritiesByLetter} = this.props
         return (
-            <div style={{width: '45%'}}>
-                <Divider orientation='left'><h1>{letter}</h1></Divider>
+            <article style={{width: '45%'}}>
+                <header>
+                    <Divider orientation='left'>
+                        <h2>{letter}</h2>
+                    </Divider>
+                </header>
                 {authoritiesByLetter.map((authority, i) => (
                     <Authority
                         key={i}
@@ -17,7 +21,7 @@ class AuthoritiesByLetter extends Component {
                         authority={authority}
                         groupName={groupName}
                     />))}
-            </div>
+            </article>
         )
     }
 }

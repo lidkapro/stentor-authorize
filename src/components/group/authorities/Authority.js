@@ -15,13 +15,13 @@ class Authority extends Component {
     render() {
         const {authority} = this.props
         return (
-            <div className='authority' key={authority.name}>
+            <section className='authority' key={authority.name}>
                 <p>{authority.name}</p>
                 <Switch
                     checked={authority.checked}
                     onChange={this.handleChange}
                 />
-            </div>
+            </section>
         )
     }
 }
