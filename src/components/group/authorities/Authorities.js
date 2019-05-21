@@ -1,22 +1,36 @@
 import React, {Component} from 'react'
-import {Divider, Switch} from 'antd'
+import {inject, observer} from 'mobx-react/index'
+import AuthoritiesByLetter from './AuthoritiesByLetter'
+import {withRouter} from 'react-router-dom'
 
-const authorities = ['addGroupAuthority', 'addToCatAlbum', 'addToCatComments',]
-
+@inject('group')
+@observer
 class Authorities extends Component {
+
+    componentWillMount() {
+        const {group, match} = this.props
+        group.findAllAuthorities(match.params.groupName)
+    }
+
+    componentWillUnmount() {
+        const {group} = this.props
+        group.cleanLists()
+    }
+
     render() {
+        const {allAuthorities, authorities} = this.props.group
+        const {group,match} = this.props
         return (
-            <div
-                style={{display: 'flex',justifyContent:'space-around', height: 300}}
-            >
-                <div style={{width: '40%'}}>
-                    <Divider orientation='left'><h1>A</h1></Divider>
-                    {authorities.map(a => (<div className='authority' key={a}>{a}<Switch/></div>))}
-                </div>
-                <div style={{width: '40%'}}>
-                    <Divider orientation='left'><h1>B</h1></Divider>
-                    {authorities.map(a => (<div className='authority' key={a}>{a}<Switch/></div>))}
-                </div>
+            <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between', padding: '0 5%'}}>
+                {Object.keys(allAuthorities).map((letter, i) =>
+                    <AuthoritiesByLetter
+                        key={i}
+                        group={group}
+                        letter={letter}
+                        authorities={authorities}
+                        groupName={match.params.groupName}
+                        authoritiesByLetter={allAuthorities[letter]}
+                    />)}
             </div>
         )
     }
@@ -24,4 +38,4 @@ class Authorities extends Component {
 
 Authorities.propTypes = {}
 
-export default Authorities
+export default withRouter(Authorities)

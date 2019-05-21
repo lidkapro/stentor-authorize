@@ -5,22 +5,19 @@ import * as serviceWorker from './serviceWorker'
 import {HashRouter} from 'react-router-dom'
 import './saas/global.scss'
 import {Provider} from 'mobx-react'
-import axios from 'axios'
-
-
-export const findAllAuthoritiesBegin = () => {
-    axios.post('/graphql', {query: '{findAllAuthorities}'})
-        .then(response => response.data)
-        .then(r => console.log(r))
-        .catch(e=>console.log(e))
-}
-
-findAllAuthoritiesBegin()
+import Groups from './store/groups'
+import Group from './store/group'
+import './axios-setup.js'
 
 window.React = React
 
+const store = {
+    groups: new Groups(),
+    group: new Group()
+}
+
 ReactDOM.render(
-    <Provider>
+    <Provider {...store}>
         <HashRouter>
             <App/>
         </HashRouter>

@@ -1,49 +1,73 @@
 import React, {Component} from 'react'
 import {Table} from 'antd'
 import {NavLink} from 'react-router-dom'
+import RenameGroupForm from './RenameGroupForm'
+import {showDeleteConfirm} from '../group/delete-group-confirm'
 
-const columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: groupName => <NavLink to={`/groups/${groupName}/allPeople`}>{groupName}</NavLink>,
-},
-    {
-        title: 'Description',
-        key: 'description',
-        dataIndex: 'description'
-    },
-    {
-        title: 'People',
-        dataIndex: 'people',
-        key: 'people',
-    }, {
-        title: 'Action',
-        key: 'action',
-        render: () => <a href="javascript:;">Delete</a>
-    }]
-
-const data = [{
-    key: '1',
-    name: 'Users',
-    people: 32,
-    description:'All registered people'
-}, {
-    key: '2',
-    name: 'Managers',
-    people: 45,
-    description:'Manage content and advertising'
-}, {
-    key: '3',
-    name: 'Administrators',
-    people: 2,
-    description:'The Gods',
-}]
 
 class ListGroups extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            visible: false,
+            oldName: ''
+        }
+        this.getData = this.getData.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
+        this.getColumns = this.getColumns.bind(this)
+    }
+
+
+    handleCancel() {
+        this.setState({visible: false})
+    }
+
+
+    getData() {
+        const {groups} = this.props
+        return groups.map((group, i) => ({name: group, key: i, people: (i + 2) * 13}))
+    }
+
+    getColumns() {
+        const {deleteGroup} = this.props
+        return [
+            {
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name',
+                render: groupName => <NavLink to={`/groups/${groupName}/allPeople`}>{groupName}</NavLink>,
+            },
+            {
+                title: 'People',
+                dataIndex: 'people',
+                key: 'people',
+            }, {
+                title: 'Actions',
+                key: 'actions',
+                render: group => <p><a onClick={() => showDeleteConfirm(group.name, deleteGroup)}>Delete</a> /
+                    <a onClick={() => this.setState({visible: true, oldName: group.name})}>Rename</a></p>
+            }
+        ]
+    }
+
     render() {
+        const {renameGroup} = this.props
+        const {oldName, visible} = this.state
         return (
-            <Table size='small' bordered={true}  columns={columns} dataSource={data}/>
+            <div>
+                <RenameGroupForm
+                    visible={visible}
+                    oldName={oldName}
+                    renameGroup={renameGroup}
+                    handleCancel={this.handleCancel}
+                />
+                <Table
+                    size='small'
+                    bordered={true}
+                    columns={this.getColumns()}
+                    dataSource={this.getData()}/>
+            </div>
         )
     }
 }

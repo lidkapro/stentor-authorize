@@ -1,22 +1,19 @@
 import React, {Component} from 'react'
 import {Card, Transfer, Icon} from 'antd'
 
-class ControlPeople extends Component {
+class ManagePeople extends Component {
     state = {
         mockData: [
             {
-                key: 1,
-                name: 'Moska'
+                key: 'Moska'
             },
             {
-                key: 2,
-                name: 'Stepan Litvinov'
+                key: 'Stepan Litvinov'
             },
             {
-                key: 3,
-                name: 'Ivan Ivanov'
+                key: 'Ivan Ivanov'
             }],
-        targetKeys: [2, 3]
+        targetKeys: ['Moska']
     }
 
     handleChange = targetKeys => {
@@ -53,13 +50,13 @@ class ControlPeople extends Component {
                     }}
                     targetKeys={this.state.targetKeys}
                     onChange={handleChange}
-                    render={item => `${item.name}`}
+                    render={item => `${item.key}`}
                 />
             </Card>
         )
     }
 }
 
-ControlPeople.propTypes = {}
+ManagePeople.propTypes = {}
 
-export default ControlPeople
+export default ManagePeople

@@ -1,6 +1,5 @@
 import React from 'react'
-import {Menu, Icon} from 'antd'
-import PropTypes from 'prop-types'
+import {Icon, Menu} from 'antd'
 import {withRouter} from 'react-router-dom'
 
 

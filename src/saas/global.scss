@@ -23,7 +23,7 @@ $opacity-time:.3s;
 }
 
 .group_head_appearance {
-  animation: appearance 1s;
+  animation: appearance .7s;
 }
 
 .group_head_disappearance {
@@ -31,12 +31,12 @@ $opacity-time:.3s;
 }
 
 .group_enter {
-  animation: smooth_moving_down 1s forwards;
+  animation: smooth_moving_down .7s forwards;
 }
 
 .group_exit {
-  animation: group_smooth_moving_up 1s forwards, disappearance $opacity-time forwards;
-  animation-delay: 0s, 1s;
+  animation: group_smooth_moving_up .7s forwards, disappearance $opacity-time forwards;
+  animation-delay: 0s, .7s;
 }
 
 @-webkit-keyframes smooth_moving_down {

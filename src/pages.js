@@ -3,10 +3,10 @@ import React from 'react'
 import {Route, Switch} from 'react-router-dom'
 import Groups from './components/groups/Groups'
 import People from './components/people/People'
-import AllPeople from './components/group/all-people/AllPeople'
+import AllPeople from './components/group/AllPeople'
 import Authorities from './components/group/authorities/Authorities'
-import HeadGroup from './components/group/Group'
-import ControlPeople from './components/group/manage-people/ControlPeople'
+import GroupSpace from './components/group/Group'
+import ManagePeople from './components/group/ManagePeople'
 
 export const GroupsMain = () =>
     <NavMenu>
@@ -17,13 +17,13 @@ export const GroupsMain = () =>
     </NavMenu>
 
 export const Group = () =>
-        <HeadGroup>
+        <GroupSpace>
             <Switch>
                 <Route path='/groups/:groupName/allPeople' component={AllPeople}/>
                 <Route path='/groups/:groupName/authorities' component={Authorities}/>
-                <Route path='/groups/:groupName/manage' component={ControlPeople}/>
+                <Route path='/groups/:groupName/manage' component={ManagePeople}/>
             </Switch>
-        </HeadGroup>
+        </GroupSpace>
 
 export const PeopleMain = () =>
     <NavMenu>
