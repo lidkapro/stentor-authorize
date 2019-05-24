@@ -1,25 +1,12 @@
 import React, {Component} from 'react'
-import {PageHeader, Button, Icon, Modal, Input} from 'antd'
+import {Button, Icon, PageHeader} from 'antd'
 import SearchInput from '../common/SearchInput'
 import {PopupWindow} from '../HOCs/PopupWindow'
-import {Form} from 'antd/lib/index'
-import FormAddPerson from './FormAddPerson'
+import PopupForm from './PopupForm'
 
 class HeadPeople extends Component {
-
-    handleSubmit = e => {
-        e.preventDefault()
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values)
-                alert('request sended')
-                this.props.handleOk()
-            }
-        })
-    }
-
     render() {
-        const {form, visible, showModal, handleCancel} = this.props
+        const {showModal, handleSubmit} = this.props
         return (
             <PageHeader
                 className='header'
@@ -30,23 +17,10 @@ class HeadPeople extends Component {
                     </Button>
                 ]}
             >
-                <Modal
-                    title="Add person"
-                    visible={visible}
-                    onOk={this.handleSubmit}
-                    onCancel={handleCancel}
-                    footer={[
-                        <Button key="1" onClick={handleCancel}>Cancel</Button>,
-                        <Button key="2" type="primary" onClick={this.handleSubmit}>
-                            Save
-                        </Button>,
-                        <Button key="3" type="primary" onClick={this.handleSubmit}>
-                            Save and Add Another
-                        </Button>,
-                    ]}
-                >
-                    <FormAddPerson form={form}/>
-                </Modal>
+                <PopupForm
+                    {...this.props}
+                    handleSubmit={handleSubmit}
+                />
             </PageHeader>
         )
     }
@@ -54,4 +28,4 @@ class HeadPeople extends Component {
 
 HeadPeople.propTypes = {}
 
-export default Form.create({name: 'add_person'})(PopupWindow(HeadPeople))
+export default PopupWindow(HeadPeople)

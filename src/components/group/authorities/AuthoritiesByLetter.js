@@ -6,7 +6,7 @@ import Authority from './Authority'
 class AuthoritiesByLetter extends Component {
 
     render() {
-        const {group, letter, groupName, authoritiesByLetter} = this.props
+        const {rights, letter, groupName, authoritiesByLetter} = this.props
         return (
             <article style={{width: '45%'}}>
                 <header>
@@ -17,7 +17,7 @@ class AuthoritiesByLetter extends Component {
                 {authoritiesByLetter.map((authority, i) => (
                     <Authority
                         key={i}
-                        group={group}
+                        rights={rights}
                         authority={authority}
                         groupName={groupName}
                     />))}

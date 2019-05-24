@@ -8,10 +8,6 @@ export const PopupWindow = ComposedComponent =>
             this.setState({visible: true})
         }
 
-        handleOk = () => {
-            this.setState({visible: false})
-        }
-
         handleCancel = () => {
             this.setState({visible: false})
         }
@@ -21,7 +17,6 @@ export const PopupWindow = ComposedComponent =>
                 <ComposedComponent
                     {...this.state}
                     {...this.props}
-                    handleOk={this.handleOk}
                     showModal={this.showModal}
                     handleCancel={this.handleCancel}
                 />

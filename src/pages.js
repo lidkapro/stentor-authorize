@@ -3,10 +3,10 @@ import React from 'react'
 import {Route} from 'react-router-dom'
 import Groups from './components/groups/Groups'
 import People from './components/people/People'
-import AllPeople from './components/group/AllPeople'
+import AllPeople from './components/group/all-people/AllPeople'
 import Authorities from './components/group/authorities/Authorities'
 import GroupSpace from './components/group/Group'
-import ManagePeople from './components/group/ManagePeople'
+import ManagePeople from './components/group/managePeople/ManagePeople'
 
 export const GroupsMain = () =>
     <NavMenu>

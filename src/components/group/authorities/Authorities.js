@@ -3,29 +3,29 @@ import {inject, observer} from 'mobx-react/index'
 import AuthoritiesByLetter from './AuthoritiesByLetter'
 import {withRouter} from 'react-router-dom'
 
-@inject('group')
+@inject('rights')
 @observer
 class Authorities extends Component {
 
     componentWillMount() {
-        const {group, match} = this.props
-        group.findAllAuthorities(match.params.groupName)
+        const {rights, match} = this.props
+        rights.findAllAuthorities(match.params.groupName)
     }
 
     componentWillUnmount() {
-        const {group} = this.props
-        group.cleanLists()
+        const {rights} = this.props
+        rights.cleanLists()
     }
 
     render() {
         const {allAuthorities, authorities} = this.props.group
-        const {group, match} = this.props
+        const {rights, match} = this.props
         return (
             <div className='authorities'>{
                 Object.keys(allAuthorities).map((letter, i) =>
                     <AuthoritiesByLetter
                         key={i}
-                        group={group}
+                        rights={rights}
                         letter={letter}
                         authorities={authorities}
                         groupName={match.params.groupName}

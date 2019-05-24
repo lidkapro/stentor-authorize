@@ -5,11 +5,13 @@ import {observer} from 'mobx-react'
 @observer
 class Authority extends Component {
 
-    handleChange = (v,e) => {
+    handleChange = (v, e) => {
         e.preventDefault()
-        const {authority, group,groupName} = this.props
+        const {authority, rights, groupName} = this.props
         authority.checked ?
-            group.removeGroupAuthority(groupName, authority) : group.addGroupAuthority(groupName, authority)
+            rights.removeGroupAuthority(groupName, authority)
+            :
+            rights.addGroupAuthority(groupName, authority)
     }
 
     render() {

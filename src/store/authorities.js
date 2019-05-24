@@ -2,48 +2,16 @@ import {observable, action, runInAction} from 'mobx'
 import axios from 'axios/index'
 import {sortByAlphabet} from '../components/group/help-functions/sort-authorities'
 
-class Group {
-    @observable peopleInGroup = []
-    @observable allPeople = []
+
+class Rights {
     @observable groupAuthorities = []
     @observable allAuthorities = []
 
-
     @action
     cleanLists = () => {
-        this.peopleInGroup = []
-        this.allPeople = []
         this.groupAuthorities = []
         this.allAuthorities = []
     }
-
-    //users in group
-
-    @action
-    deleteGroup = async groupName => {
-        await axios.post('/graphql', {query: `mutation{deleteGroup(groupName:"${groupName}")}`})
-        this.cleanLists()
-    }
-
-    @action
-    findUsersInGroup = async (groupName) => {
-        const response = await axios.post('/graphql', {query: `{findUsersInGroup(groupName:"${groupName}")}`})
-        const peopleInGroup = response.data.data['findUsersInGroup']
-        runInAction(() => {
-            this.groupName = groupName
-            this.peopleInGroup = [...this.peopleInGroup, ...peopleInGroup]
-        })
-    }
-
-    @action
-    deleteUserFromGroup = async (groupName, username) => {
-        await axios.post('/graphql', {query: `mutation{removeUserFromGroup(groupName:"${groupName}",username:"${username}")}`})
-        runInAction(() => {
-            this.peopleInGroup = this.peopleInGroup.filter(p => p !== username)
-        })
-    }
-
-    //authority
 
     @action
     changeCheckedAuthority = authority => {
@@ -54,7 +22,6 @@ class Group {
                 )
             )
     }
-
 
     @action
     findAllAuthorities = async (groupName) => {
@@ -92,13 +59,7 @@ class Group {
         })
     }
 
-    //manage people
-
-    @action
-    findAllUser = async () => {
-
-    }
 
 }
 
-export default Group
+export default Rights

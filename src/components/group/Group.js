@@ -1,29 +1,23 @@
 import React, {Component} from 'react'
-import TitleGroup from './TitleGroup'
-import NavButtons from './NavButtons'
 import {withRouter} from 'react-router-dom'
 import {inject} from 'mobx-react'
+import HeadGroup from './HeadGroup'
 
 
-@inject('group')
+@inject('groups')
 class Group extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {exit: false}
-        this.goBack = this.goBack.bind(this)
-        this.deleteGroup = this.deleteGroup.bind(this)
-    }
+    state = {exit: false}
 
-    goBack() {
+    goBack = () => {
         const {history} = this.props
         this.setState({exit: true})
         setTimeout(() => history.push('/groups'), 800)
     }
 
-    deleteGroup() {
-        const {group, match} = this.props
-        group.deleteGroup(match.params.groupName)
+    deleteGroup = () => {
+        const {groups, match} = this.props
+        groups.deleteGroup(match.params.groupName)
         this.goBack()
     }
 
@@ -32,16 +26,12 @@ class Group extends Component {
         const {children, match} = this.props
         return (
             <article className='container'>
-                <header className={!exit ? 'group_head_appearance' : 'group_head_disappearance'}>
-                    <TitleGroup
-                        match={match}
-                        goBack={this.goBack}
-                        deleteGroup={this.deleteGroup}
-                    />
-                    <nav>
-                        <NavButtons/>
-                    </nav>
-                </header>
+               <HeadGroup
+                   exit={exit}
+                   match={match}
+                   goBack={this.goBack}
+                   deleteGroup={this.deleteGroup}
+               />
                 <section className={!exit ? 'group_enter' : 'group_exit'}>
                     {children}
                 </section>

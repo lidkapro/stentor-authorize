@@ -6,14 +6,16 @@ import {HashRouter} from 'react-router-dom'
 import './saas/global.scss'
 import {Provider} from 'mobx-react'
 import Groups from './store/groups'
-import Group from './store/group'
 import './axios-setup.js'
+import Rights from './store/authorities'
+import People from './store/people'
 
 window.React = React
 
 const store = {
     groups: new Groups(),
-    group: new Group()
+    rights: new Rights(),
+    people:new People()
 }
 
 ReactDOM.render(
