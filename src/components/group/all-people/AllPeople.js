@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {Table} from 'antd'
-import {inject, observer} from 'mobx-react/index'
+import {Icon, Table} from 'antd'
+import {inject, observer} from 'mobx-react'
 import HeadAllPeople from './HeadAllPeople'
 
 @inject('people')
+@observer
 class AllPeople extends Component {
 
     state = {
@@ -16,11 +17,11 @@ class AllPeople extends Component {
 
     componentDidMount() {
         const {people, match} = this.props
-        people.findUsersInGroup(match.params.groupName)
+        people.findUsersInGroup(match.params.groupName,0)
     }
 
     getColumns = () => {
-        const {deleteUserFromGroup} = this.props.group
+        const {people, match} = this.props
         return [
             {
                 title: 'Username',
@@ -28,14 +29,28 @@ class AllPeople extends Component {
                 key: 'username',
             },
             {
-                title: 'Status',
-                key: 'status',
-                dataIndex: 'status'
-            },
+                title: 'Enabled',
+                dataIndex: 'enabled',
+                key: 'enabled',
+                render: enabled => enabled ?
+                    <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a"/> :
+                    <Icon type="close-circle" theme="twoTone" twoToneColor="#eb2f96"/>
+            }
+            ,
+            {
+                title: 'Locked',
+                dataIndex: 'locked',
+                key: 'locked',
+                render: locked => locked ?
+                    <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a"/> :
+                    <Icon type="close-circle" theme="twoTone" twoToneColor="#eb2f96"/>
+            }
+            ,
             {
                 title: 'Action',
                 key: 'action',
-                render: group => <a onClick={() => deleteUserFromGroup(group.username)}>Delete</a>
+                render: group => <a onClick={() =>
+                    people.removeUserFromGroup(match.params.groupName, group.username)}>Delete</a>
             }
         ]
     }
@@ -58,7 +73,7 @@ class AllPeople extends Component {
                     size='small'
                     bordered={true}
                     columns={this.getColumns()}
-                    dataSource={people.data()}
+                    dataSource={people.dataAllPeople}
                     pagination={{pageSize: pageSize}}/>
             </section>
         )

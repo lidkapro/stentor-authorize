@@ -7,21 +7,7 @@ import {inject, observer} from 'mobx-react'
 @observer
 class Groups extends Component {
 
-    state = {
-        visible: false,
-        oldName: ''
-    }
-
-    handleCancel = () => {
-        this.setState({visible: false})
-    }
-
-    showModal = () => {
-        this.setState({visible: true})
-    }
-
-
-    componentWillMount() {
+    componentDidMount() {
         this.props.groups.findAllGroups()
     }
 
@@ -33,18 +19,8 @@ class Groups extends Component {
         const {groups} = this.props
         return (
             <main className='container groups_enter'>
-                <HeadGroups
-                    {...this.state}
-                    showModal={this.showModal}
-                    createGroup={groups.createGroup}
-                    handleCancel={this.handleCancel}
-                />
-                <ListGroups
-                    {...this.state}
-                    groups={groups}
-                    showModal={this.showModal}
-                    handleCancel={this.handleCancel}
-                />
+                <HeadGroups createGroup={groups.createGroup}/>
+                <ListGroups groups={groups}/>
             </main>
         )
     }

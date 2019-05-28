@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
-  "proxy": "http://auth.selector.site",
+  "proxy": "http://localhost:8086",
   "dependencies": {
     "antd": "3.16.5",
     "axios": "0.18.0",

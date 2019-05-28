@@ -18,7 +18,7 @@ class Authorities extends Component {
     }
 
     render() {
-        const {allAuthorities, authorities} = this.props.group
+        const {allAuthorities, authorities} = this.props.rights
         const {rights, match} = this.props
         return (
             <div className='authorities'>{

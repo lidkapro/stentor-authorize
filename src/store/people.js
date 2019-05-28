@@ -7,41 +7,57 @@ class People {
     @observable allPeople = []
 
     @action
-    cleanList = () => {
+    cleanLists = () => {
         this.peopleInGroup = []
         this.allPeople = []
     }
 
-    @computed get data() {
-        return this.peopleInGroup.map((p, i) => ({username: p, status: 'active', key: i}))
+    @computed get dataAllPeople() {
+        return this.peopleInGroup.map(p => ({...p, key: p.id}))
+    }
+
+    @computed get dataManagePeople() {
+        return this.allPeople.map(p => ({key: p.username}))
+    }
+
+    @computed get keysManagePeople() {
+        return this.peopleInGroup.map(p => p.username)
     }
 
     @action
-    findUsersInGroup = async (groupName) => {
-        const response = await axios.post('/graphql', {query: `{findUsersInGroup(groupName:"${groupName}")}`})
-        const peopleInGroup = response.data.data['findUsersInGroup']
+    findAllUser = async pageNum => {
+        this.loading = false
+        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}){total content{email id locked enabled username langKey groups}}}`})
+        const content = response.data.data['findAllUser'].content
         runInAction(() => {
-            this.groupName = groupName
+            this.allPeople = [...this.allPeople, ...content]
+        })
+    }
+
+    @action
+    findUsersInGroup = async (groupName, pageNum) => {
+        const response = await axios.post('/graphql', {query: `{findUsersInGroup(pageNum:${pageNum}, groupName:"${groupName}"){total content{email id locked enabled username langKey groups}}}`})
+        const peopleInGroup = response.data.data['findUsersInGroup'].content
+        runInAction(() => {
             this.peopleInGroup = [...this.peopleInGroup, ...peopleInGroup]
         })
     }
 
     @action
-    deleteUserFromGroup = async (groupName, username) => {
+    removeUserFromGroup = async (groupName, username) => {
         await axios.post('/graphql', {query: `mutation{removeUserFromGroup(groupName:"${groupName}",username:"${username}")}`})
         runInAction(() => {
-            this.peopleInGroup = this.peopleInGroup.filter(p => p !== username)
+            this.peopleInGroup = this.peopleInGroup.filter(p => p.username !== username)
         })
     }
 
     @action
-    create = async () => {
-        this.loading = false
-        const response = await axios.post('/graphql', {query: '{findAllGroups}'})
-        const groups = response.data.data['findAllGroups']
+    addUserToGroup = async (groupName, username) => {
+        const response = await axios.post('/graphql', {query: `mutation{addUserToGroup(groupName:"${groupName}",username:"${username}")}`})
+        const user = response.data.data['addUserToGroup']
+         console.log(user)
         runInAction(() => {
-            this.state = 'done'
-            this.list = [...this.list, ...groups]
+            this.peopleInGroup = [...this.peopleInGroup, user]
         })
     }
 

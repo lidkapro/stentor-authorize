@@ -5,21 +5,36 @@ import PopupForm from './PopupForm'
 
 
 class HeadGroups extends Component {
+    state = {
+        visible: false,
+    }
+
+    handleCancel = () => {
+        this.setState({visible: false})
+    }
+
+    showPopup = () => {
+        this.setState({visible: true})
+    }
+
     render() {
-        const {showModal, createGroup} = this.props
+        const {visible} =this.state
+        const {form, createGroup} = this.props
         return (
             <PageHeader
                 className='header'
                 title={<SearchInput/>}
                 extra={[
-                    <Button key='1' onClick={showModal} type='primary'>
+                    <Button key='1' onClick={this.showPopup} type='primary'>
                         <Icon type="usergroup-add"/>Add group
                     </Button>
                 ]}
             >
                 <PopupForm
-                    {...this.props}
+                    form={form}
                     title="Add group"
+                    visible={visible}
+                    handleCancel={this.handleCancel}
                     sendRequest={groupName => createGroup(groupName)}
                 />
             </PageHeader>

@@ -10,7 +10,7 @@ class PopupForm extends Component {
         form.validateFields((err, values) => {
             if (!err) {
                 sendRequest(values.groupName)
-                form.setFields({newName: {value: ''}})
+                form.setFields({groupName: {value: ''}})
                 handleCancel()
             }
         })

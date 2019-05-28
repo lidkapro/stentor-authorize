@@ -4,9 +4,24 @@ import {NavLink} from 'react-router-dom'
 import {showDeleteConfirm} from '../group/help-functions/delete-group-confirm'
 import {Form} from 'antd/lib/index'
 import PopupForm from './PopupForm'
+import {observer} from 'mobx-react'
 
 
+@observer
 class ListGroups extends Component {
+
+    state = {
+        visible: false,
+        oldName: ''
+    }
+
+    handleCancel = () => {
+        this.setState({visible: false})
+    }
+
+    getOldName = oldName => {
+        this.setState({visible: true, oldName: oldName})
+    }
 
     getData() {
         const {groups} = this.props
@@ -29,19 +44,22 @@ class ListGroups extends Component {
             }, {
                 title: 'Actions',
                 key: 'actions',
-                render: group => <p><a onClick={() => showDeleteConfirm(group.name, groups.deleteGroup)}>Delete</a> /
-                    <a onClick={() => super.setState({visible: true, oldName: group.name})}>Rename</a></p>
+                render: group => <section><a onClick={() => showDeleteConfirm(group.name, groups.deleteGroup)}>Delete</a> /
+                    <a onClick={() => this.getOldName(group.name)}>Rename</a></section>
             }
         ]
     }
 
     render() {
-        const {groups, oldName} = this.props
+        const {oldName, visible} = this.state
+        const {form, groups} = this.props
         return (
             <section>
                 <PopupForm
-                    {...this.props}
+                    form={form}
+                    visible={visible}
                     title="Rename group"
+                    handleCancel={this.handleCancel}
                     sendRequest={groupName => groups.renameGroup(oldName, groupName)}
                 />
                 <Table
