@@ -1,30 +1,35 @@
 import React, {Component} from 'react'
 import {Menu} from 'antd'
+import {withRouter} from 'react-router-dom'
+import {inject} from 'mobx-react/index'
 
-const MenuItemGroup = Menu.ItemGroup
-
-
+@inject('people')
 class MenuPeople extends Component {
+
+    handleClick = e => {
+        const {history, people,match} = this.props
+        const search = match.params.search ? match.params.search : ''
+        const params = {search: search,sortBy:'sort', filter: e.key, sort: 'not'}
+        console.log(match.params)
+        people.saveParams(params)
+        people.findAllUserBegin(0)
+        history.push(`/people/${e.key}/not/sort/${search}`)
+    }
+
     render() {
+        const {match} = this.props
         return (
             <Menu
                 className='people_menu'
                 mode='inline'
-                defaultSelectedKeys={['0']}
+                defaultSelectedKeys={[match.params.filter]}
+                onClick={this.handleClick}
             >
-                <Menu.Item key="0">Everyone</Menu.Item>
-                <MenuItemGroup key="g1" title="ONBOARDING">
-                    <Menu.Item key="1">Staged</Menu.Item>
-                    <Menu.Item key="2">Pending user action</Menu.Item>
-                </MenuItemGroup>
-                <MenuItemGroup key="g2" title="ACTIVE">
-                    <Menu.Item key="4">Password Reset</Menu.Item>
-                    <Menu.Item key="5">Password Expired</Menu.Item>
-                </MenuItemGroup>
-                <MenuItemGroup key="g3" title="INACTIVE">
-                    <Menu.Item key="6">Suspended</Menu.Item>
-                    <Menu.Item key="7">Deactivated</Menu.Item>
-                </MenuItemGroup>
+                <Menu.Item key="everyone">Everyone</Menu.Item>
+                <Menu.Item key="active">Active</Menu.Item>
+                <Menu.Item key="notActive">Not Active</Menu.Item>
+                <Menu.Item key="banned">Banned</Menu.Item>
+                <Menu.Item key="passwordReset">Password Reset</Menu.Item>
             </Menu>
         )
     }
@@ -32,4 +37,4 @@ class MenuPeople extends Component {
 
 MenuPeople.propTypes = {}
 
-export default MenuPeople
+export default withRouter(MenuPeople)

@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {Input} from 'antd'
 
 const Search = Input.Search
 
 class SearchInput extends Component {
     render() {
+        const {onSearch = f => f} = this.props
         return (
             <Search
                 placeholder="search..."
-                onSearch={value => console.log(value)}
-                onChange={e => console.log(e.target.value)}
-                style={{maxWidth:200}}
+                onSearch={value => onSearch(value)}
+                onChange={e => onSearch(e.target.value)}
+                style={{maxWidth: 200}}
             />
         )
     }

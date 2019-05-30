@@ -1,13 +1,58 @@
 import {observable, action, runInAction, computed} from 'mobx'
 import axios from 'axios/index'
 
+class DataSearch {
 
-class People {
+    params = {sort: null, sortBy: null, filter: null, search: null}
+
+    settings = {
+        active: 'enabled: {equals: true}, locked: {equals: false}',
+        notActive: ' enabled: {equals: false}',
+        banned: 'locked: {equals: true}',
+        passwordReset: 'resetKey:{specified: true}',
+    }
+
+    keys = '{totalElements content{email activationDate id locked enabled username langKey groups}}'
+
+    @computed get search() {
+        return `username:{contains:"${this.params.search}"}`
+    }
+
+    @computed get sortMethod() {
+        return `sort:${this.params.sort} properties:["${this.params.sortBy}"]`
+    }
+
+    @action
+    saveParams = ({sort, filter, sortBy, search}) => {
+        runInAction(() => {
+            this.params = {
+                sort: sort,
+                filter: filter,
+                sortBy: sortBy,
+                search: search
+            }
+        })
+    }
+
+    @computed get builtFields() {
+        const {params} = this
+        const sort = params.sort === 'not' ? '' : this.sortMethod
+        const filter = params.filter === 'everyone' ? '' : this.settings[params.filter]
+        const search = !params.search ? '' : this.search
+        return `${sort} filter:{${filter} ${search}}`
+    }
+
+}
+
+
+class People extends DataSearch {
+
     @observable group = []
     @observable all = []
     @observable page = {group: [], all: []}
     @observable total = {group: 0, all: 0}
     @observable loading = false
+
 
     @action
     cleanState = () => {
@@ -27,17 +72,24 @@ class People {
     }
 
     @action
-    findAllUserBegin = async (pageNum, sort) => {
+    findAllUserBegin = async pageNum => {
         this.loading = true
-        const sortMethod = sort ? `sort:${sort}` : ''
-        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum} ${sortMethod}){totalElements content{email id locked enabled username langKey groups}}}`})
-        const data = response.data.data['findAllUser']
-        this.findAllUserDone(data)
+        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum} ${this.builtFields})${this.keys}}`})
+        this.findAllUserDone(response)
     }
 
 
     @action
-    findAllUserDone = data => {
+    findAllUserInGroupBegin = async (groupName, pageNum, sort) => {
+        this.loading = true
+        const sortMethod = sort ? `sort:${sort}` : ''
+        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}, filter:{groupName:{equals:"${groupName}"}} ${sortMethod})${this.keys} }`})
+        this.findAllUserInGroupDone(response)
+    }
+
+    @action
+    findAllUserDone = response => {
+        const data = response.data.data['findAllUser']
         setTimeout(() => runInAction(() => {
             this.loading = false
             this.all = [...this.all, ...data.content]
@@ -47,17 +99,8 @@ class People {
     }
 
     @action
-    findAllUserInGroupBegin = async (groupName, pageNum, sort) => {
-        this.loading = true
-        const sortMethod = sort ? `sort:${sort}` : ''
-        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}, filter:{groupName:{equals:"${groupName}"}} ${sortMethod}){totalElements content{email id locked enabled username langKey groups}}}`})
+    findAllUserInGroupDone = response => {
         const data = response.data.data['findAllUser']
-        this.findAllUserInGroupDone(data)
-    }
-
-
-    @action
-    findAllUserInGroupDone = data => {
         setTimeout(() => runInAction(() => {
             this.loading = false
             this.group = [...this.group, ...data.content]
