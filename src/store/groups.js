@@ -8,7 +8,7 @@ class Groups {
     @observable list = []
 
     @action
-    cleanList = () => {
+    cleanState = () => {
         this.list = []
     }
 

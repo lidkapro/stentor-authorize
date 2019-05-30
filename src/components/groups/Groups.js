@@ -12,7 +12,7 @@ class Groups extends Component {
     }
 
     componentWillUnmount() {
-        this.props.groups.cleanList()
+        this.props.groups.cleanState()
     }
 
     render() {

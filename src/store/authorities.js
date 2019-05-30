@@ -8,7 +8,7 @@ class Rights {
     @observable allAuthorities = []
 
     @action
-    cleanLists = () => {
+    cleanState = () => {
         this.groupAuthorities = []
         this.allAuthorities = []
     }

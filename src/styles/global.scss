@@ -2,6 +2,22 @@ $width-container: 720px;
 $border: 0.3px solid rgba(0, 0, 0, .1);
 $paper-color: whitesmoke;
 $opacity-time: .3s;
+$background-image: url("Endless-Constellation (1).svg");
+
+@mixin flexColumn {
+  display: flex;
+  flex-flow: column
+}
+
+.wrapper_container {
+  overflow-y: scroll;
+  background: $background-image;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 
 @mixin general {
   background-color: $paper-color;
@@ -10,8 +26,9 @@ $opacity-time: .3s;
 
 .container {
   max-width: $width-container;
-  margin: auto;
   position: relative;
+  margin: auto auto 20px;
+  background: rgb(255, 255, 255);
 }
 
 .header {
@@ -48,21 +65,12 @@ $opacity-time: .3s;
   }
 }
 
-@-webkit-keyframes smooth_moving_up {
-  from {
-    transform: translateY(120px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
 @-webkit-keyframes group_smooth_moving_up {
   from {
     transform: translateY(0);
   }
   to {
-    transform: translateY(-120px);
+    transform: translateY(-140px);
   }
 }
 
@@ -108,4 +116,22 @@ $opacity-time: .3s;
   flex-flow: row wrap;
   justify-content: space-between;
   padding: 0 5%;
+}
+
+.manage_people_lists {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 10px
+}
+
+.manage_people_list {
+  @include flexColumn;
+  height: 250px;
+  overflow-y: auto
+}
+
+.manage_people_buttons {
+  @include flexColumn;
 }

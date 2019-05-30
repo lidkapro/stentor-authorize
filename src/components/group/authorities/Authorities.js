@@ -14,7 +14,7 @@ class Authorities extends Component {
 
     componentWillUnmount() {
         const {rights} = this.props
-        rights.cleanLists()
+        rights.cleanState()
     }
 
     render() {

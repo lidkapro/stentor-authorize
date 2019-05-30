@@ -1,65 +1,104 @@
 import React, {Component} from 'react'
-import {Card, Transfer, Icon} from 'antd'
+import {Card} from 'antd'
 import {inject, observer} from 'mobx-react/index'
+import _ from 'lodash'
+import Buttons from './Buttons'
+import ListPeoples from './ListPeoples'
 
 @inject('people')
 @observer
 class ManagePeople extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            rightCheckedValues: [],
+            leftCheckedValues: []
+        }
+        this.loadMoreData = _.debounce(this.loadMoreData, 200)
+    }
+
     componentDidMount() {
         const {people, match} = this.props
-        people.findUsersInGroup(match.params.groupName,0)
-        people.findAllUser(0)
+        people.findAllUserInGroupBegin(match.params.groupName, 0)
+        people.findAllUserBegin(0)
     }
 
-    handleChange = (nextTargetKeys, direction, moveKeys) => {
+    loadMoreData = () => {
+        const {match, people} = this.props
+        const {total} = people
+        const keys = people.group.length
+        const data = people.all.length
+
+        if (keys < total.group) {
+            const page = keys / 10
+            people.findAllUserInGroupBegin(match.params.groupName, page)
+        }
+        if (data < total.all) {
+            const page = data / 10
+            people.findAllUserBegin(page)
+        }
+    }
+
+    handleChange = direction => {
         const {people, match} = this.props
+        const {rightCheckedValues, leftCheckedValues} = this.state
         if (direction === 'left') {
-            moveKeys.forEach(key => people.removeUserFromGroup(match.params.groupName, key))
+            rightCheckedValues.forEach(key => people.removeUserFromGroup(match.params.groupName, key))
+            this.setState({rightCheckedValues: []})
         }
         else {
-            moveKeys.forEach(key => people.addUserToGroup(match.params.groupName, key))
+            leftCheckedValues.forEach(key => people.addUserToGroup(match.params.groupName, key))
+            this.setState({leftCheckedValues: []})
         }
     }
 
-    renderTitle = title => {
-        return (
-            <header>
-                {
-                    title === 'Members' ?
-                        <Icon style={{marginRight: 3}} type="smile" theme="twoTone"/> :
-                        <Icon style={{marginRight: 3}} type="frown" theme="twoTone" twoToneColor="#eb2f96"/>
-                }
-                {title}
-            </header>
-        )
-    }
-    componentWillUnmount(){
-        const {people} = this.props
-        people.cleanLists()
+    onChange = (e, values) => {
+        const value = e.target.value
+        const checked = e.target.checked
+        const arr = values === 'rightCheckedValues' ? this.state.rightCheckedValues : this.state.leftCheckedValues
+        checked ?
+            this.setState({[values]: [...arr, value]})
+            :
+            this.setState({[values]: arr.filter(a => a !== value)})
     }
 
+    componentWillUnmount() {
+        const {people} = this.props
+        people.cleanState()
+    }
+
+
     render() {
-        const {dataManagePeople, keysManagePeople} = this.props.people
-        const {renderTitle, handleChange} = this
+        const {rightCheckedValues, leftCheckedValues} = this.state
+        const {all, group} = this.props.people
         return (
             <Card
                 size='small'
                 type='inner'
                 title='Add or remove people from the group'
             >
-                <Transfer
-                    dataSource={dataManagePeople}
-                    showSearch
-                    titles={[renderTitle('Not Members'), renderTitle('Members')]}
-                    listStyle={{
-                        width: '46%',
-                        height: 300,
-                    }}
-                    targetKeys={keysManagePeople}
-                    onChange={handleChange}
-                    render={item => `${item.key}`}
-                />
+                <section className='manage_people_lists'>
+                    <ListPeoples
+                        list={all}
+                        title='Not Members'
+                        values='leftCheckedValues'
+                        onChange={this.onChange}
+                        onScroll={this.loadMoreData}
+                    />
+                    <Buttons
+                        handleChange={this.handleChange}
+                        toLeft={!rightCheckedValues.length}
+                        toRight={!leftCheckedValues.length}
+                    />
+                    <ListPeoples
+                        list={group}
+                        title='Members'
+                        values='rightCheckedValues'
+                        onChange={this.onChange}
+                        onScroll={this.loadMoreData}
+                    />
+                </section>
             </Card>
         )
     }

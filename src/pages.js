@@ -9,10 +9,12 @@ import GroupSpace from './components/group/Group'
 import ManagePeople from './components/group/managePeople/ManagePeople'
 
 export const GroupsMain = () =>
-    <NavMenu>
-        <Route exact path='/groups' component={Groups}/>
-        <Route path='/groups/:groupName' component={Group}/>
-    </NavMenu>
+    <div className='wrapper_container'>
+        <NavMenu>
+            <Route exact path='/groups' component={Groups}/>
+            <Route path='/groups/:groupName' component={Group}/>
+        </NavMenu>
+    </div>
 
 export const Group = () =>
     <GroupSpace>
@@ -21,7 +23,10 @@ export const Group = () =>
         <Route path='/groups/:groupName/manage' component={ManagePeople}/>
     </GroupSpace>
 
+
 export const PeopleMain = () =>
-    <NavMenu>
-        <Route path='/people' component={People}/>
-    </NavMenu>
+    <div className='wrapper_container'>
+        <NavMenu>
+            <Route path='/people' component={People}/>
+        </NavMenu>
+    </div>

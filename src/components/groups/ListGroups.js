@@ -63,7 +63,7 @@ class ListGroups extends Component {
                     sendRequest={groupName => groups.renameGroup(oldName, groupName)}
                 />
                 <Table
-                    size='small'
+                    size='middle'
                     bordered={true}
                     columns={this.getColumns()}
                     dataSource={this.getData()}/>

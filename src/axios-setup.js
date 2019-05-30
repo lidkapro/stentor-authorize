@@ -10,12 +10,12 @@ axios.interceptors.response.use((response) => {
     }
     return response
 }, (error) => {
-    if(error.message === "Network Error"){
+    if (error.message === 'Network Error') {
         alert('Сервер не работает!')
         return Promise.reject(error)
     }
-    if(error.response.status === 401){
-        alert('Вы не авторизованы!')
+    if (error.response.status === 401) {
+        window.location = 'http://localhost:8086/login/index.html#/en/login'
         return Promise.reject(error)
     }
     return Promise.reject(error)

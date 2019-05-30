@@ -3,21 +3,14 @@ import {Icon, Table} from 'antd'
 import {inject, observer} from 'mobx-react'
 import HeadAllPeople from './HeadAllPeople'
 
+
 @inject('people')
 @observer
 class AllPeople extends Component {
 
-    state = {
-        pageSize: 10
-    }
-
-    changeSize = value => {
-        this.setState({pageSize: value})
-    }
-
     componentDidMount() {
         const {people, match} = this.props
-        people.findUsersInGroup(match.params.groupName,0)
+        people.findAllUserInGroupBegin(match.params.groupName, 0)
     }
 
     getColumns = () => {
@@ -27,6 +20,8 @@ class AllPeople extends Component {
                 title: 'Username',
                 dataIndex: 'username',
                 key: 'username',
+                sorter: () => {
+                }
             },
             {
                 title: 'Enabled',
@@ -44,37 +39,49 @@ class AllPeople extends Component {
                 render: locked => locked ?
                     <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a"/> :
                     <Icon type="close-circle" theme="twoTone" twoToneColor="#eb2f96"/>
-            }
-            ,
+            },
             {
                 title: 'Action',
                 key: 'action',
-                render: group => <a onClick={() =>
-                    people.removeUserFromGroup(match.params.groupName, group.username)}>Delete</a>
+                render: user =>
+                    <div>
+                        <a onClick={() => user.removeUserFromGroup(match.params.groupName, user.username)}>Delete </a>
+                        /
+                        {!user.locked ?
+                            <a onClick={() => people.lockUser(user.username)}> Lock</a> :
+                            <a onClick={() => people.unLockUser(user.username)}> Unlock</a>
+                        }
+                    </div>
             }
         ]
     }
 
-    componentWillUnmount() {
-        const {people} = this.props
-        people.cleanLists()
+    loadPage = ({current}, a, {order}) => {
+        const {people, match} = this.props
+        const page = current - 1
+        people.findAllUserInGroupBegin(match.params.groupName, page, !order ? null : order === 'ascend' ? 'ASC' : 'DESC')
     }
 
+    componentWillUnmount() {
+        const {people} = this.props
+        people.cleanState()
+    }
+
+
     render() {
-        const {pageSize} = this.state
         const {people} = this.props
         return (
             <section>
-                <HeadAllPeople
-                    pageSize={pageSize}
-                    changeSize={this.changeSize}
-                />
+                <HeadAllPeople/>
                 <Table
-                    size='small'
+                    size='middle'
                     bordered={true}
+                    loading={people.loading}
+                    onChange={this.loadPage}
                     columns={this.getColumns()}
                     dataSource={people.dataAllPeople}
-                    pagination={{pageSize: pageSize}}/>
+                    pagination={{total: people.totalInGroup}}
+                />
             </section>
         )
     }
