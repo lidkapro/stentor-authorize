@@ -1,90 +1,31 @@
 import {observable, action, runInAction, computed} from 'mobx'
 import axios from 'axios/index'
-
-class DataSearch {
-
-    params = {sort: null, sortBy: null, filter: null, search: null}
-
-    settings = {
-        active: 'enabled: {equals: true}, locked: {equals: false}',
-        notActive: ' enabled: {equals: false}',
-        banned: 'locked: {equals: true}',
-        passwordReset: 'resetKey:{specified: true}',
-    }
-
-    keys = '{totalElements content{email activationDate id locked enabled username langKey groups}}'
-
-    @computed get search() {
-        return `username:{contains:"${this.params.search}"}`
-    }
-
-    @computed get sortMethod() {
-        return `sort:${this.params.sort} properties:["${this.params.sortBy}"]`
-    }
-
-    @action
-    saveParams = ({sort, filter, sortBy, search}) => {
-        runInAction(() => {
-            this.params = {
-                sort: sort,
-                filter: filter,
-                sortBy: sortBy,
-                search: search
-            }
-        })
-    }
-
-    @computed get builtFields() {
-        const {params} = this
-        const sort = params.sort === 'not' ? '' : this.sortMethod
-        const filter = params.filter === 'everyone' ? '' : this.settings[params.filter]
-        const search = !params.search ? '' : this.search
-        return `${sort} filter:{${filter} ${search}}`
-    }
-
-}
-
+import DataSearch from './data-search'
 
 class People extends DataSearch {
 
-    @observable group = []
     @observable all = []
-    @observable page = {group: [], all: []}
+    @observable lists = {group: [], all: []}
     @observable total = {group: 0, all: 0}
     @observable loading = false
 
-
     @action
     cleanState = () => {
-        this.group = []
         this.all = []
-        this.page = {group: [], all: []}
         this.total = {group: 0, all: 0}
+        this.lists = {group: [], all: []}
         this.loading = false
     }
 
-    @computed get dataAllPeople() {
-        return this.page.group.map(p => ({...p, key: p.id}))
-    }
-
     @computed get dataListPeoples() {
-        return this.page.all.map(p => ({...p, key: p.id}))
+        return this.all.map(p => ({...p, key: p.id}))
     }
 
     @action
     findAllUserBegin = async pageNum => {
         this.loading = true
-        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum} ${this.builtFields})${this.keys}}`})
+        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}, ${this.builtFields} )${this.keys}}`})
         this.findAllUserDone(response)
-    }
-
-
-    @action
-    findAllUserInGroupBegin = async (groupName, pageNum, sort) => {
-        this.loading = true
-        const sortMethod = sort ? `sort:${sort}` : ''
-        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}, filter:{groupName:{equals:"${groupName}"}} ${sortMethod})${this.keys} }`})
-        this.findAllUserInGroupDone(response)
     }
 
     @action
@@ -92,41 +33,9 @@ class People extends DataSearch {
         const data = response.data.data['findAllUser']
         setTimeout(() => runInAction(() => {
             this.loading = false
-            this.all = [...this.all, ...data.content]
-            this.page.all = data.content
-            this.total.all = data.totalElements
+            this.all = data.content
+            this.total = data.totalElements
         }), 200)
-    }
-
-    @action
-    findAllUserInGroupDone = response => {
-        const data = response.data.data['findAllUser']
-        setTimeout(() => runInAction(() => {
-            this.loading = false
-            this.group = [...this.group, ...data.content]
-            this.page.group = data.content
-            this.total.group = data.totalElements
-        }), 200)
-    }
-
-
-    @action
-    removeUserFromGroup = async (groupName, username) => {
-        await axios.post('/graphql', {query: `mutation{removeUserFromGroup(groupName:"${groupName}",username:"${username}")}`})
-        runInAction(() => {
-            this.peopleInGroup = this.peopleInGroup.filter(p => p.username !== username)
-            --this.totalInGroup
-        })
-    }
-
-    @action
-    addUserToGroup = async (groupName, username) => {
-        const response = await axios.post('/graphql', {query: `mutation{addUserToGroup(groupName:"${groupName}",username:"${username}"){username email}}`})
-        const user = response.data.data['addUserToGroup']
-        runInAction(() => {
-            this.group = [...this.group, user]
-            ++this.total.group
-        })
     }
 
     @action
@@ -134,10 +43,7 @@ class People extends DataSearch {
         await axios.post('/graphql', {query: `mutation{lockUser(username:"${username}")}`})
         const doLock = user => user.username === username ? ({...user, locked: true}) : user
         runInAction(() => {
-            this.page = {
-                all: this.page.all.map(doLock),
-                group: this.page.group.map(doLock)
-            }
+            this.all = this.all.map(doLock)
         })
     }
 
@@ -146,13 +52,57 @@ class People extends DataSearch {
         await axios.post('/graphql', {query: `mutation{unLockUser(username:"${username}")}`})
         const doUnlock = user => user.username === username ? ({...user, locked: false}) : user
         runInAction(() => {
-            this.page = {
-                all: this.page.all.map(doUnlock),
-                group: this.page.group.map(doUnlock)
-            }
+            this.all = this.all.map(doUnlock)
         })
     }
 
+    @action
+    removeUserFromGroupBegin = async username => {
+        await axios.post('/graphql', {query: `mutation{removeUserFromGroup(groupName:"${this.params.groupName}",username:"${username}")}`})
+        runInAction(() => {
+            this.lists.group = this.lists.group.filter(p => p.username !== username)
+            this.lists.all.unshift({username: username,removed:true})
+            --this.total.group
+            ++this.total.all
+        })
+    }
+
+    @action
+    addUserToGroupBegin = async username => {
+        await axios.post('/graphql', {query: `mutation{addUserToGroup(groupName:"${this.params.groupName}",username:"${username}"){username email}}`})
+        runInAction(() => {
+            this.lists.all = this.lists.all.filter(p => p.username !== username)
+            this.lists.group.unshift({username: username,removed:true})
+            ++this.total.group
+            --this.total.all
+        })
+    }
+
+    @action
+    findAllUserInGroupBegin = async (pageNum, str) => {
+        this.loading = true
+        this.saveParams({filter: 'onlyGroup', search: str ? str : ''})
+        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}, ${this.builtFields} )${this.keys}}`})
+        if (str !== this.params.search || pageNum === 0) {
+            runInAction(() => {
+                this.lists.group = []
+            })
+        }
+        this.findListUsersDone(response, 'group')
+    }
+
+    @action
+    findAllUserExceptGroupBegin = async (pageNum, str) => {
+        this.loading = true
+        this.saveParams({filter: 'notGroup', search: str ? str : ''})
+        const response = await axios.post('/graphql', {query: `{findAllUser(pageNum:${pageNum}, ${this.builtFields} )${this.keys}}`})
+        if (str !== this.params.search || pageNum === 0) {
+            runInAction(() => {
+                this.lists.all = []
+            })
+        }
+        this.findListUsersDone(response, 'all')
+    }
 }
 
 export default People

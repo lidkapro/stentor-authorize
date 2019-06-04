@@ -25,7 +25,8 @@
     "react-moment": "0.9.2",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "recompose": "^0.30.0"
   },
   "scripts": {
     "eject": "react-scripts eject",

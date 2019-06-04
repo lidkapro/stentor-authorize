@@ -3,34 +3,36 @@ import axios from 'axios/index'
 import {sortByAlphabet} from '../components/group/help-functions/sort-authorities'
 
 
-class Rights {
-    @observable groupAuthorities = []
-    @observable allAuthorities = []
+class Authorities {
+    @observable all = []
+    @observable group = []
+    @observable sortedByLetter = []
 
     @action
     cleanState = () => {
-        this.groupAuthorities = []
-        this.allAuthorities = []
+        this.all = []
+        this.group = []
+        this.sortedByLetter = []
     }
 
     @action
     changeCheckedAuthority = authority => {
-        Object.keys(this.allAuthorities)
+        Object.keys(this.sortedByLetter)
             .map(aByLetter =>
-                this.allAuthorities[aByLetter].map(allA =>
+                this.sortedByLetter[aByLetter].map(allA =>
                     allA.name !== authority ? null : allA.checked = true
                 )
             )
     }
 
     @action
-    findAllAuthorities = async (groupName) => {
+    findAllAuthorities = async () => {
         const response = await axios.post('/graphql', {query: `{findAllAuthorities}`})
         const authorities = response.data.data['findAllAuthorities']
         runInAction(() => {
-            this.allAuthorities = sortByAlphabet(authorities)
+            this.all = authorities
+            this.sortedByLetter = sortByAlphabet(authorities)
         })
-        await this.findGroupAuthorities(groupName)
     }
 
     @action
@@ -38,7 +40,7 @@ class Rights {
         const response = await axios.post('/graphql', {query: `{findGroupAuthorities(groupName:"${groupName}")}`})
         const authorities = response.data.data['findGroupAuthorities']
         runInAction(() => {
-            this.groupAuthorities = authorities
+            this.group = authorities
         })
         authorities.forEach(a => this.changeCheckedAuthority(a))
     }
@@ -62,4 +64,4 @@ class Rights {
 
 }
 
-export default Rights
+export default Authorities
