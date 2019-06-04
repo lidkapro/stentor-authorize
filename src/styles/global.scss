@@ -9,6 +9,17 @@ $background-image: url("Subtle-Prism.svg");
   flex-flow: column
 }
 
+@mixin general {
+  background-color: $paper-color;
+  border: $border
+}
+
+@mixin checkbox {
+  margin-bottom: 5px;
+  padding: 5px;
+  transition: .7s;
+}
+
 .wrapper_container {
   overflow-y: scroll;
   background: $background-image;
@@ -19,10 +30,6 @@ $background-image: url("Subtle-Prism.svg");
   left: 0;
 }
 
-@mixin general {
-  background-color: $paper-color;
-  border: $border
-}
 
 .container {
   max-width: $width-container;
@@ -134,4 +141,30 @@ $background-image: url("Subtle-Prism.svg");
 
 .manage_people_buttons {
   @include flexColumn;
+}
+
+.manage_people_checkbox {
+  @include checkbox;
+}
+
+.manage_people_checkbox_remove {
+  @include checkbox;
+  animation: addToList 1s;
+}
+
+.manage_people_checkbox:hover{
+  cursor: pointer;
+  background: rgba(123, 104, 238,.2);
+}
+
+@-webkit-keyframes addToList {
+  from {
+    background: rgba(0,0,0,.0);
+  }
+  50%{
+    background: rgba(123, 104, 238,.2);
+  }
+  to {
+    background: rgba(0,0,0,.0);
+  }
 }

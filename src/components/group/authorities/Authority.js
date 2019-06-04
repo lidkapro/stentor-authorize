@@ -7,11 +7,11 @@ class Authority extends Component {
 
     handleChange = (v, e) => {
         e.preventDefault()
-        const {authority, rights, groupName} = this.props
+        const {authority, authorities, groupName} = this.props
         authority.checked ?
-            rights.removeGroupAuthority(groupName, authority)
+            authorities.removeGroupAuthority(groupName, authority)
             :
-            rights.addGroupAuthority(groupName, authority)
+            authorities.addGroupAuthority(groupName, authority)
     }
 
     render() {

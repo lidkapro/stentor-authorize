@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import {Divider} from 'antd'
 import Authority from './Authority'
+import {observer} from 'mobx-react'
 
 
+@observer
 class AuthoritiesByLetter extends Component {
 
     render() {
-        const {rights, letter, groupName, authoritiesByLetter} = this.props
+        const {authorities, letter, groupName, authoritiesByLetter} = this.props
         return (
             <article style={{width: '45%'}}>
                 <header>
@@ -17,9 +19,9 @@ class AuthoritiesByLetter extends Component {
                 {authoritiesByLetter.map((authority, i) => (
                     <Authority
                         key={i}
-                        rights={rights}
                         authority={authority}
                         groupName={groupName}
+                        authorities={authorities}
                     />))}
             </article>
         )

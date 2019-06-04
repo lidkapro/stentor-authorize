@@ -7,16 +7,19 @@ import './styles/global.scss'
 import {Provider} from 'mobx-react'
 import Groups from './store/groups'
 import './axios-setup.js'
-import Rights from './store/authorities'
 import People from './store/people'
+import ManagePeople from './store/manage-people'
+import Authorities from './store/authorities'
 
 window.React = React
 
 const store = {
     groups: new Groups(),
-    rights: new Rights(),
-    people:new People()
+    authorities: new Authorities(),
+    people:new People(),
+    managePeople:new ManagePeople()
 }
+
 
 ReactDOM.render(
     <Provider {...store}>
