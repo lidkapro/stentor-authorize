@@ -7,6 +7,7 @@ import AllPeople from './components/group/all-people/AllPeople'
 import Authorities from './components/group/authorities/Authorities'
 import GroupSpace from './components/group/Group'
 import ManagePeople from './components/group/managePeople/ManagePeople'
+import ManageAuthorities from './components/manage-authorities/ManageAuthorities'
 
 export const GroupsMain = () =>
     <div className='wrapper_container'>
@@ -18,15 +19,22 @@ export const GroupsMain = () =>
 
 export const Group = () =>
     <GroupSpace>
-        <Route path='/groups/:groupName/allPeople' component={AllPeople}/>
-        <Route path='/groups/:groupName/authorities' component={Authorities}/>
-        <Route path='/groups/:groupName/manage' component={ManagePeople}/>
+        <Route exact path='/groups/:groupName/allPeople' component={AllPeople}/>
+        <Route exact path='/groups/:groupName/authorities' component={Authorities}/>
+        <Route exact path='/groups/:groupName/manage' component={ManagePeople}/>
     </GroupSpace>
 
 
 export const PeopleMain = () =>
     <div className='wrapper_container'>
         <NavMenu>
-            <Route path='/people' component={People}/>
+            <Route exact path='/people' component={People}/>
+        </NavMenu>
+    </div>
+
+export const AllAuthorities = () =>
+    <div className='wrapper_container'>
+        <NavMenu>
+            <Route exact path='/authorities' component={ManageAuthorities}/>
         </NavMenu>
     </div>

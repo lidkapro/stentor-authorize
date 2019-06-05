@@ -14,16 +14,16 @@ class Groups {
 
     @action
     findAllGroups = async () => {
-        const response = await axios.post('/graphql', {query: '{findAllGroups}'})
+        const response = await axios.post('/graphql', {query: '{findAllGroups{createdBy createdDate modifiedBy modifiedDate name userCount}}'})
         const groups = response.data.data['findAllGroups']
         runInAction(() => {
-            this.list = [...this.list, ...groups]
+            this.list = groups
         })
     }
 
     @action
     createGroup = async groupName => {
-        const response = await axios.post('/graphql', {query: `mutation{createGroup(authorities:["createGroup"],groupName:"${groupName}")}`})
+        const response = await axios.post('/graphql', {query: `mutation{createGroup(authorities:["createGroup"],groupName:"${groupName}"){createdBy createdDate modifiedBy modifiedDate name userCount}}`})
         const group = response.data.data['createGroup']
         runInAction(() => {
             this.list = [...this.list, group]
@@ -34,16 +34,14 @@ class Groups {
     deleteGroup = async groupName => {
         await axios.post('/graphql', {query: `mutation{deleteGroup(groupName:"${groupName}")}`})
         runInAction(() => {
-            this.list = this.list.filter(l => l !== groupName)
+            this.list = this.list.filter(group => group.name !== groupName)
         })
     }
 
     @action
     renameGroup = async (oldName, newName) => {
-        await axios.post('/graphql', {query: `mutation{renameGroup(newName:"${newName}"oldName:"${oldName}")}`})
-        runInAction(() => {
-            this.list = this.list.map(l => l === oldName ? newName : l)
-        })
+        await axios.post('/graphql', {query: `mutation{renameGroup(oldName:"${oldName}" newName:"${newName}")}`})
+        this.findAllGroups()
     }
 }
 

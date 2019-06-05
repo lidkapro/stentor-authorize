@@ -27,11 +27,12 @@ class Authorities {
 
     @action
     findAllAuthorities = async () => {
-        const response = await axios.post('/graphql', {query: `{findAllAuthorities}`})
+        const response = await axios.post('/graphql', {query: '{findAllAuthorities{authority createdBy createdDate modifiedBy modifiedDate}}'})
         const authorities = response.data.data['findAllAuthorities']
+        const names = authorities.map(a => a.authority)
         runInAction(() => {
             this.all = authorities
-            this.sortedByLetter = sortByAlphabet(authorities)
+            this.sortedByLetter = sortByAlphabet(names)
         })
     }
 
@@ -60,7 +61,27 @@ class Authorities {
             authority.checked = false
         })
     }
+    createAuthority = async name => {
+        const response = await axios.post('/graphql', {query: `mutation{createAuthority(authority:"${name}"){authority createdBy createdDate modifiedBy modifiedDate}}`})
+        const authority = response.data.data['createAuthority']
+        runInAction(() => {
+            this.all = [...this.all, authority]
+        })
+    }
 
+    @action
+    deleteAuthority = async name => {
+        await axios.post('/graphql', {query: `mutation{deleteAuthority(authority:"${name}")}`})
+        runInAction(() => {
+            this.all = this.all.filter(a => a.authority !== name)
+        })
+    }
+
+    @action
+    renameAuthority = async (oldName, newName) => {
+        await axios.post('/graphql', {query: `mutation{renameAuthority(oldName:"${oldName}" newName:"${newName}")}`})
+        this.findAllAuthorities()
+    }
 
 }
 

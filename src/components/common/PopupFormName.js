@@ -1,23 +1,23 @@
 import React, {Component} from 'react'
 import {Modal} from 'antd'
-import GroupNameForm from './GroupNameForm'
+import NameForm from './NameForm'
 
-class PopupForm extends Component {
+class PopupFormName extends Component {
 
     handleSubmit = e => {
         e.preventDefault()
         const {form, handleCancel, sendRequest} = this.props
         form.validateFields((err, values) => {
             if (!err) {
-                sendRequest(values.groupName)
-                form.setFields({groupName: {value: ''}})
+                sendRequest(values.name)
+                form.setFields({name: {value: ''}})
                 handleCancel()
             }
         })
     }
 
     render() {
-        const {form,title, handleCancel, visible} = this.props
+        const {form,title, handleCancel, visible,placeholder} = this.props
         return (
             <Modal
                 title={title}
@@ -25,12 +25,12 @@ class PopupForm extends Component {
                 onOk={this.handleSubmit}
                 onCancel={handleCancel}
             >
-                <GroupNameForm form={form}/>
+                <NameForm form={form} placeholder={placeholder}/>
             </Modal>
         )
     }
 }
 
-PopupForm.propTypes = {}
+PopupFormName.propTypes = {}
 
-export default PopupForm
+export default PopupFormName

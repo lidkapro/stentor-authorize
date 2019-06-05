@@ -1,4 +1,4 @@
-$width-container: 760px;
+$width-container: 960px;
 $border: 0.3px solid rgba(0, 0, 0, .1);
 $paper-color: whitesmoke;
 $opacity-time: .3s;
@@ -10,7 +10,6 @@ $background-image: url("Subtle-Prism.svg");
 }
 
 @mixin general {
-  background-color: $paper-color;
   border: $border
 }
 
@@ -35,7 +34,6 @@ $background-image: url("Subtle-Prism.svg");
   max-width: $width-container;
   position: relative;
   margin: auto auto 20px;
-  background: rgb(255, 255, 255);
 }
 
 .header {

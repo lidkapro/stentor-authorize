@@ -5,7 +5,6 @@ import {Menu} from 'antd'
 const MenuPeople = ({changeFilter}) =>
     <Menu
         mode='inline'
-        className='people_menu'
         defaultSelectedKeys={['everyone']}
         onClick={changeFilter}
     >

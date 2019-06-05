@@ -8,7 +8,6 @@ const SearchInput = ({onSearch=f=>f}) =>
         placeholder="search..."
         onSearch={value => onSearch(value)}
         onChange={e => onSearch(e.target.value)}
-        style={{maxWidth: 300}}
     />
 
 

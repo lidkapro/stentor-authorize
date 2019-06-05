@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import {inject} from 'mobx-react'
 import HeadGroup from './HeadGroup'
-
+import {Card} from 'antd'
 
 @inject('groups')
 class Group extends Component {
@@ -25,7 +25,7 @@ class Group extends Component {
         const {exit} = this.state
         const {children, match} = this.props
         return (
-            <article className='container'>
+            <Card className='container'>
                <HeadGroup
                    exit={exit}
                    match={match}
@@ -35,7 +35,7 @@ class Group extends Component {
                 <section className={!exit ? 'group_enter' : 'group_exit'}>
                     {children}
                 </section>
-            </article>
+            </Card>
         )
     }
 }

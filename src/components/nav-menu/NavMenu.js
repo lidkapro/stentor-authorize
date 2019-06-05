@@ -7,15 +7,19 @@ export const NavMenu = ({children, history, location}) =>
     <header>
         <nav>
             <Menu
+                onClick={e => history.push(`/${e.key}`)}
                 selectedKeys={[location.pathname.split('/')[1]]}
                 style={{marginBottom: 20}}
                 mode="horizontal"
             >
-                <Menu.Item key='groups' onClick={e => history.push(`/${e.key}`)}>
+                <Menu.Item key='groups'>
                     <Icon type="team"/>Groups
                 </Menu.Item>
-                <Menu.Item key='people' onClick={e => history.push(`/${e.key}/everyone/not/sort`)}>
+                <Menu.Item key='people'>
                     <Icon type="user"/>People
+                </Menu.Item>
+                <Menu.Item key='authorities'>
+                    <Icon type="team"/>Authorities
                 </Menu.Item>
             </Menu>
             {children}

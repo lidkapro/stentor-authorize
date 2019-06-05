@@ -1,15 +1,19 @@
 import React from 'react'
 import _ from 'lodash'
 import Moment from 'react-moment'
-import {Icon} from 'antd'
+import {Icon, Input, Tag} from 'antd'
 import {inject} from 'mobx-react'
-
+import Highlighter from 'react-highlight-words'
 
 const FiltersAndSortPeople = ComposedComponent => {
     return inject('people')(class FiltersAndSortPeople extends ComposedComponent {
 
         constructor(props) {
             super(props)
+            this.state = {
+                searchText: '',
+            }
+
             this.loadData = _.debounce(this.loadData, 200)
             this.searchByUsername = _.debounce(this.searchByUsername, 200)
         }
@@ -24,7 +28,7 @@ const FiltersAndSortPeople = ComposedComponent => {
 
         changeFilter = e => {
             const {people} = this.props
-            people.saveParams({filter: e.key})
+            people.saveParams({filter: e.key, search: ''})
             people.findAllUserBegin(0)
         }
 
@@ -51,7 +55,8 @@ const FiltersAndSortPeople = ComposedComponent => {
                     dataIndex: 'username',
                     key: 'username',
                     sorter: () => {
-                    }
+                    },
+                    ...this.getColumnSearchProps('username')
                 },
                 {
                     title: 'e-mail',
@@ -59,12 +64,25 @@ const FiltersAndSortPeople = ComposedComponent => {
                     key: 'email',
                 },
                 {
-                    title: 'Activation Date',
+                    title: 'Activation',
                     dataIndex: 'activationDate',
                     key: 'activationDate',
                     sorter: (user) => {
                     },
-                    render: date => date ? <Moment format='DD.MM.YYYY'>{date}</Moment> : <div/>
+                    render: date => date ? <Moment format='DD.MM.YY HH:mm'>{date}</Moment> : <div/>
+                },
+                {
+                    title: 'Groups',
+                    dataIndex: 'groups',
+                    key: 'groups',
+                    render: groups =>
+                        <span>
+                       {groups.map(tag => (
+                           <Tag color='geekblue' key={tag}>
+                               {tag}
+                           </Tag>
+                       ))}
+                       </span>
                 },
                 {
                     title: 'Enabled',
@@ -92,6 +110,39 @@ const FiltersAndSortPeople = ComposedComponent => {
                 }
             ]
         }
+
+        getColumnSearchProps = dataIndex => ({
+            filterDropdown: () => (
+                <div style={{padding: 8}}>
+                    <Input
+                        ref={node => {
+                            this.searchInput = node
+                        }}
+                        value={this.props.people.params.search}
+                        placeholder={`Search ${dataIndex}`}
+                        onChange={e => this.searchByUsername(e.target.value)}
+                        style={{width: 150, marginBottom: 8, display: 'block'}}
+                    />
+                </div>
+            ),
+            filterIcon: filtered =>
+                <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>
+            ,
+            onFilterDropdownVisibleChange: visible => {
+                if (visible) {
+                    setTimeout(() => this.searchInput.select())
+                }
+            },
+            render: text => (
+                <Highlighter
+                    highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
+                    searchWords={[this.props.people.params.search]}
+                    autoEscape
+                    textToHighlight={text.toString()}
+                />
+            ),
+        })
+
 
         componentWillUnmount() {
             const {people} = this.props
