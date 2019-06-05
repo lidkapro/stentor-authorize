@@ -9,7 +9,6 @@ class Authorities extends Component {
 
     componentWillMount() {
         const {authorities, match} = this.props
-        authorities.findAllAuthorities()
         authorities.findGroupAuthorities(match.params.groupName)
     }
 

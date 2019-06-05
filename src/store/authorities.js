@@ -29,21 +29,26 @@ class Authorities {
     findAllAuthorities = async () => {
         const response = await axios.post('/graphql', {query: '{findAllAuthorities{authority createdBy createdDate modifiedBy modifiedDate}}'})
         const authorities = response.data.data['findAllAuthorities']
-        const names = authorities.map(a => a.authority)
         runInAction(() => {
             this.all = authorities
-            this.sortedByLetter = sortByAlphabet(names)
         })
     }
 
     @action
     findGroupAuthorities = async (groupName) => {
-        const response = await axios.post('/graphql', {query: `{findGroupAuthorities(groupName:"${groupName}")}`})
-        const authorities = response.data.data['findGroupAuthorities']
+        const responseAll = await axios.post('/graphql', {query: '{findAllAuthorities{authority createdBy createdDate modifiedBy modifiedDate}}'})
+        const allAuth = responseAll.data.data['findAllAuthorities']
+        const names = allAuth.map(a => a.authority)
+        runInAction(() => {
+            this.sortedByLetter = sortByAlphabet(names)
+        })
+        const groupAuth = await axios.post('/graphql', {query: `{findGroupAuthorities(groupName:"${groupName}")}`})
+        const authorities = groupAuth.data.data['findGroupAuthorities']
         runInAction(() => {
             this.group = authorities
         })
         authorities.forEach(a => this.changeCheckedAuthority(a))
+        console.log(this.sortedByLetter)
     }
 
     @action
