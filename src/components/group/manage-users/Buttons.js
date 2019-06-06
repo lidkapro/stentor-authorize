@@ -5,7 +5,7 @@ class Buttons extends Component {
     render() {
         const {toLeft, toRight, addUserToGroup, removeUserFromGroup} = this.props
         return (
-            <section className='manage_people_buttons'>
+            <section className='manage_users_buttons'>
                 <Button onClick={addUserToGroup} disabled={toRight} style={{marginBottom: 5}}>
                     <Icon type="right"/>
                 </Button>

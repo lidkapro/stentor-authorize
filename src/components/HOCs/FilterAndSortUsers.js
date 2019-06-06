@@ -5,8 +5,8 @@ import {Icon, Input, Tag} from 'antd'
 import {inject} from 'mobx-react'
 import Highlighter from 'react-highlight-words'
 
-const FiltersAndSortPeople = ComposedComponent => {
-    return inject('people')(class FiltersAndSortPeople extends ComposedComponent {
+const FiltersAndSortUsers = ComposedComponent => {
+    return inject('users')(class FiltersAndSortUsers extends ComposedComponent {
 
         constructor(props) {
             super(props)
@@ -19,41 +19,43 @@ const FiltersAndSortPeople = ComposedComponent => {
         }
 
         componentDidMount() {
-            const {people, match} = this.props
+            const {users, match} = this.props
             const filter = match.params.groupName ? 'onlyGroup' : 'everyone'
             const groupName = match.params.groupName ? match.params.groupName : ''
-            people.saveParams({filter: filter, groupName: groupName})
-            people.findAllUserBegin(0)
+            users.saveParams({filter: filter, groupName: groupName})
+            users.findAllUserBegin(0)
         }
 
         changeFilter = e => {
-            const {people} = this.props
-            people.saveParams({filter: e.key, search: ''})
-            people.findAllUserBegin(0)
+            const {users} = this.props
+            users.saveParams({filter: e.key, search: ''})
+            users.findAllUserBegin(0)
         }
 
         searchByUsername = str => {
-            const {people} = this.props
-            people.saveParams({search: str})
-            people.findAllUserBegin(0)
+            const {users} = this.props
+            users.saveParams({search: str})
+            users.findAllUserBegin(0)
         }
 
         loadData = ({current}, a, {order, field}) => {
-            const {people} = this.props
+            const {users} = this.props
             const page = current - 1
             const sort = order ? order : ''
             const sortBy = sort ? field : ''
-            people.saveParams({sort: sort, sortBy: sortBy})
-            people.findAllUserBegin(page)
+            users.saveParams({sort: sort, sortBy: sortBy})
+            users.findAllUserBegin(page)
         }
 
         getColumns = () => {
-            const {people} = this.props
+            const {users} = this.props
             return [
                 {
                     title: 'Username',
                     dataIndex: 'username',
                     key: 'username',
+                    width: 150,
+                    fixed: 'left',
                     sorter: () => {
                     },
                     ...this.getColumnSearchProps('username')
@@ -104,9 +106,11 @@ const FiltersAndSortPeople = ComposedComponent => {
 
                     title: 'Action',
                     key: 'action',
+                    fixed: 'right',
+                    width: 70,
                     render: user => !user.locked ?
-                        <a onClick={() => people.lockUser(user.username)}>Lock</a> :
-                        <a onClick={() => people.unLockUser(user.username)}>Unlock</a>
+                        <a onClick={() => users.lockUser(user.username)}>Lock</a> :
+                        <a onClick={() => users.unLockUser(user.username)}>Unlock</a>
                 }
             ]
         }
@@ -118,7 +122,7 @@ const FiltersAndSortPeople = ComposedComponent => {
                         ref={node => {
                             this.searchInput = node
                         }}
-                        value={this.props.people.params.search}
+                        value={this.props.users.params.search}
                         placeholder={`Search ${dataIndex}`}
                         onChange={e => this.searchByUsername(e.target.value)}
                         style={{width: 150, marginBottom: 8, display: 'block'}}
@@ -136,7 +140,7 @@ const FiltersAndSortPeople = ComposedComponent => {
             render: text => (
                 <Highlighter
                     highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
-                    searchWords={[this.props.people.params.search]}
+                    searchWords={[this.props.users.params.search]}
                     autoEscape
                     textToHighlight={text.toString()}
                 />
@@ -145,9 +149,9 @@ const FiltersAndSortPeople = ComposedComponent => {
 
 
         componentWillUnmount() {
-            const {people} = this.props
-            people.saveParams({sort: '', sortBy: '', filter: 'everyone', search: ''})
-            people.cleanState()
+            const {users} = this.props
+            users.saveParams({sort: '', sortBy: '', filter: 'everyone', search: ''})
+            users.cleanState()
         }
 
         render() {
@@ -164,6 +168,6 @@ const FiltersAndSortPeople = ComposedComponent => {
     })
 }
 
-FiltersAndSortPeople.propTypes = {}
+FiltersAndSortUsers.propTypes = {}
 
-export default FiltersAndSortPeople
+export default FiltersAndSortUsers

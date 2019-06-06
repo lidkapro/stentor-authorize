@@ -1,13 +1,13 @@
-import NavMenu from './components/nav-menu/NavMenu'
+import NavMenu from './NavMenu'
 import React from 'react'
 import {Route} from 'react-router-dom'
-import Groups from './components/groups/Groups'
-import People from './components/people/People'
-import AllPeople from './components/group/all-people/AllPeople'
+import Groups from './components/Groups'
+import Users from './components/users/Users'
+import AllUsers from './components/group/all-users/AllUsers'
 import Authorities from './components/group/authorities/Authorities'
 import GroupSpace from './components/group/Group'
-import ManagePeople from './components/group/managePeople/ManagePeople'
-import ManageAuthorities from './components/manage-authorities/ManageAuthorities'
+import ManageAuthorities from './components/ManageAuthorities'
+import ManageUsers from './components/group/manage-users/ManageUsers'
 
 export const GroupsMain = () =>
     <div className='wrapper_container'>
@@ -19,16 +19,16 @@ export const GroupsMain = () =>
 
 export const Group = () =>
     <GroupSpace>
-        <Route exact path='/groups/:groupName/allPeople' component={AllPeople}/>
+        <Route exact path='/groups/:groupName/allUsers' component={AllUsers}/>
         <Route exact path='/groups/:groupName/authorities' component={Authorities}/>
-        <Route exact path='/groups/:groupName/manage' component={ManagePeople}/>
+        <Route exact path='/groups/:groupName/manage' component={ManageUsers}/>
     </GroupSpace>
 
 
-export const PeopleMain = () =>
+export const UsersMain = () =>
     <div className='wrapper_container'>
         <NavMenu>
-            <Route exact path='/people' component={People}/>
+            <Route exact path='/users' component={Users}/>
         </NavMenu>
     </div>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import {Menu} from 'antd'
 
 
-const MenuPeople = ({changeFilter}) =>
+const MenuUsers = ({changeFilter}) =>
     <Menu
         mode='inline'
         defaultSelectedKeys={['everyone']}
@@ -16,6 +16,6 @@ const MenuPeople = ({changeFilter}) =>
     </Menu>
 
 
-MenuPeople.propTypes = {}
+MenuUsers.propTypes = {}
 
-export default MenuPeople
+export default MenuUsers

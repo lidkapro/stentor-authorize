@@ -2,36 +2,36 @@ import React, {Component} from 'react'
 import {Card} from 'antd'
 import {inject, observer} from 'mobx-react/index'
 import Buttons from './Buttons'
-import ListPeoples from './ListPeoples'
+import ListUsers from './ListUsers'
 
-@inject('managePeople')
+@inject('manageUsers')
 @observer
-class ManagePeople extends Component {
+class ManageUsers extends Component {
 
     componentDidMount() {
-        const {managePeople, match} = this.props
-        managePeople.saveParams({groupName: match.params.groupName})
-        managePeople.findAllUserInGroupBegin(0)
-        managePeople.findAllUserExceptGroupBegin(0)
+        const {manageUsers, match} = this.props
+        manageUsers.saveParams({groupName: match.params.groupName})
+        manageUsers.findAllUserInGroupBegin(0)
+        manageUsers.findAllUserExceptGroupBegin(0)
     }
 
     componentWillUnmount() {
-        this.props.managePeople.cleanState()
+        this.props.manageUsers.cleanState()
     }
 
     render() {
         const {
             checked, addUserToGroup, removeUserFromGroup, loadMoreAllData,
             loadMoreGroupData, findAllUserInGroupBegin, findAllUserExceptGroupBegin
-        } = this.props.managePeople
+        } = this.props.manageUsers
         return (
             <Card
                 size='small'
                 type='inner'
-                title='Add or remove people from the group'
+                title='Add or remove users from the group'
             >
-                <section className='manage_people_lists'>
-                    <ListPeoples
+                <section className='manage_users_lists'>
+                    <ListUsers
                         title='Not Members'
                         side='all'
                         loadMoreData={loadMoreAllData}
@@ -43,7 +43,7 @@ class ManagePeople extends Component {
                         addUserToGroup={addUserToGroup}
                         removeUserFromGroup={removeUserFromGroup}
                     />
-                    <ListPeoples
+                    <ListUsers
                         title='Members'
                         side='group'
                         loadMoreData={loadMoreGroupData}
@@ -55,6 +55,6 @@ class ManagePeople extends Component {
     }
 }
 
-ManagePeople.propTypes = {}
+ManageUsers.propTypes = {}
 
-export default ManagePeople
+export default ManageUsers

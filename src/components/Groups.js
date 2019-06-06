@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-import HeadLists from '../common/HeadLists'
-import ListItems from '../common/ListItems'
+import HeadLists from './common/HeadLists'
+import ListItems from './common/ListItems'
 import {inject, observer} from 'mobx-react'
-import {showDeleteConfirm} from '../group/help-functions/delete-group-confirm'
+import {showDeleteConfirm} from './group/help-functions/delete-group-confirm'
 import {NavLink} from 'react-router-dom'
 import Moment from 'react-moment'
-import {Button, Card, Icon} from 'antd'
-import ListsControl from '../HOCs/ListsControl'
+import {Card} from 'antd'
+import ListsControl from './HOCs/ListsControl'
 
 
 @inject('groups')
@@ -32,10 +32,10 @@ class Groups extends Component {
                 dataIndex: 'name',
                 key: 'name',
                 ...getColumnSearchProps('name'),
-                render: groupName => <NavLink to={`/groups/${groupName}/allPeople`}>{groupName}</NavLink>,
+                render: groupName => <NavLink to={`/groups/${groupName}/allUsers`}>{groupName}</NavLink>,
             },
             {
-                title: 'People',
+                title: 'Users',
                 dataIndex: 'userCount',
                 key: 'userCount',
                 sorter: (a, b) => a.userCount - b.userCount,

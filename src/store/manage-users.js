@@ -1,9 +1,9 @@
 import {action, observable, runInAction} from 'mobx'
 import _ from 'lodash'
-import People from './people'
+import Users from './users'
 
 
-class ManagePeople extends People {
+class ManageUsers extends Users {
 
     @observable allChecked = {group: false, all: false}
     @observable checked = {group: [], all: []}
@@ -108,4 +108,4 @@ class ManagePeople extends People {
 }
 
 
-export default ManagePeople
+export default ManageUsers

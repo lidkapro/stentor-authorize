@@ -2,7 +2,7 @@ import {observable, action, runInAction, computed} from 'mobx'
 import axios from 'axios/index'
 import DataSearch from './data-search'
 
-class People extends DataSearch {
+class Users extends DataSearch {
 
     @observable all = []
     @observable lists = {group: [], all: []}
@@ -17,7 +17,7 @@ class People extends DataSearch {
         this.loading = false
     }
 
-    @computed get dataListPeoples() {
+    @computed get dataListUsers() {
         return this.all.map(p => ({...p, key: p.id}))
     }
 
@@ -105,4 +105,4 @@ class People extends DataSearch {
     }
 }
 
-export default People
+export default Users

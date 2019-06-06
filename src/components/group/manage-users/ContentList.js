@@ -7,11 +7,11 @@ const ContentList = observer(({list, checked, changeChecked, loadMoreData}) =>
     <div
         onScroll={loadMoreData}
         onMouseMove={list.length < 10 ? loadMoreData : f => f}
-        className='manage_people_list'
+        className='manage_users_list'
     >
         {list.map(user => (
             <Row key={user.username}
-                 className={user.removed ? 'manage_people_checkbox_remove' : 'manage_people_checkbox'}>
+                 className={user.removed ? 'manage_users_checkbox_remove' : 'manage_users_checkbox'}>
                 <Col>
                     <Checkbox
                         checked={checked.indexOf(user.username) !== -1}

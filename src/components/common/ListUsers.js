@@ -3,9 +3,10 @@ import {Table} from 'antd'
 import {observer} from 'mobx-react'
 
 
-const ListPeoples = observer(({data = [], total = 0, columns = [], loading = false, loadData = f => f}) =>
+const ListUsers = observer(({data = [], total = 0, columns = [], loading = false, loadData = f => f}) =>
     <Table
         size='middle'
+        scroll={{ x: 1000 }}
         loading={loading}
         columns={columns}
         dataSource={data}
@@ -15,6 +16,6 @@ const ListPeoples = observer(({data = [], total = 0, columns = [], loading = fal
 )
 
 
-ListPeoples.propTypes = {}
+ListUsers.propTypes = {}
 
-export default ListPeoples
+export default ListUsers

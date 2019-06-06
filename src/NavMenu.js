@@ -1,30 +1,30 @@
 import React from 'react'
-import {Icon, Menu} from 'antd'
+import {Button, Icon, Menu} from 'antd'
 import {withRouter} from 'react-router-dom'
 
 
 export const NavMenu = ({children, history, location}) =>
-    <header>
-        <nav>
+    <section>
+        <header className='main_header'>
             <Menu
                 onClick={e => history.push(`/${e.key}`)}
                 selectedKeys={[location.pathname.split('/')[1]]}
-                style={{marginBottom: 20}}
                 mode="horizontal"
             >
+                <Menu.Item key='users'>
+                    <Icon type="user"/>Users
+                </Menu.Item>
                 <Menu.Item key='groups'>
                     <Icon type="team"/>Groups
-                </Menu.Item>
-                <Menu.Item key='people'>
-                    <Icon type="user"/>People
                 </Menu.Item>
                 <Menu.Item key='authorities'>
                     <Icon type="team"/>Authorities
                 </Menu.Item>
             </Menu>
-            {children}
-        </nav>
-    </header>
+            <Button onClick={() => window.location = '/logout'} style={{marginRight: 10}}>Log out</Button>
+        </header>
+        {children}
+    </section>
 
 NavMenu.propTypes = {}
 

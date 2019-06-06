@@ -7,8 +7,8 @@ import './styles/global.scss'
 import {Provider} from 'mobx-react'
 import Groups from './store/groups'
 import './axios-setup.js'
-import People from './store/people'
-import ManagePeople from './store/manage-people'
+import Users from './store/users'
+import ManageUsers from './store/manage-users'
 import Authorities from './store/authorities'
 
 window.React = React
@@ -16,8 +16,8 @@ window.React = React
 const store = {
     groups: new Groups(),
     authorities: new Authorities(),
-    people:new People(),
-    managePeople:new ManagePeople()
+    users:new Users(),
+    manageUsers:new ManageUsers()
 }
 
 

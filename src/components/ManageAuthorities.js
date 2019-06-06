@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {Card} from 'antd'
-import {showDeleteConfirm} from '../group/help-functions/delete-group-confirm'
-import ListItems from '../common/ListItems'
-import HeadLists from '../common/HeadLists'
+import {showDeleteConfirm} from './group/help-functions/delete-group-confirm'
+import ListItems from './common/ListItems'
+import HeadLists from './common/HeadLists'
 import {inject, observer} from 'mobx-react'
 import Moment from 'react-moment'
-import ListsControl from '../HOCs/ListsControl'
+import ListsControl from './HOCs/ListsControl'
 import moment from 'moment'
 
 @inject('authorities')

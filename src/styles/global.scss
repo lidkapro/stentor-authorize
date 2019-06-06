@@ -29,6 +29,13 @@ $background-image: url("Subtle-Prism.svg");
   left: 0;
 }
 
+.main_header {
+  background-color: white;
+  margin-bottom: 20px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between
+}
 
 .container {
   max-width: $width-container;
@@ -45,7 +52,7 @@ $background-image: url("Subtle-Prism.svg");
 }
 
 .group_head_appearance {
-  animation: appearance .7s;
+  animation: appearance 2s;
 }
 
 .group_head_disappearance {
@@ -53,7 +60,7 @@ $background-image: url("Subtle-Prism.svg");
 }
 
 .group_enter {
-  animation: smooth_moving_down .7s forwards;
+  animation: smooth_moving_down .8s forwards;
 }
 
 .group_exit {
@@ -103,14 +110,14 @@ $background-image: url("Subtle-Prism.svg");
   margin-bottom: 10px;
 }
 
-.all_people_table {
+.all_users_table {
   display: flex;
   flex-flow: row nowrap;
   border: 0.3px solid rgba(0, 0, 0, .1);
   margin-bottom: 10px
 }
 
-.people_menu {
+.users_menu {
   @include general;
   padding: 1px;
   flex: 1 1 100px;
@@ -123,7 +130,7 @@ $background-image: url("Subtle-Prism.svg");
   padding: 0 5%;
 }
 
-.manage_people_lists {
+.manage_users_lists {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -131,38 +138,38 @@ $background-image: url("Subtle-Prism.svg");
   margin-top: 10px
 }
 
-.manage_people_list {
+.manage_users_list {
   @include flexColumn;
   height: 250px;
   overflow-y: auto
 }
 
-.manage_people_buttons {
+.manage_users_buttons {
   @include flexColumn;
 }
 
-.manage_people_checkbox {
+.manage_users_checkbox {
   @include checkbox;
 }
 
-.manage_people_checkbox_remove {
+.manage_users_checkbox_remove {
   @include checkbox;
   animation: addToList 1s;
 }
 
-.manage_people_checkbox:hover{
+.manage_users_checkbox:hover {
   cursor: pointer;
-  background: rgba(123, 104, 238,.2);
+  background: rgba(123, 104, 238, .2);
 }
 
 @-webkit-keyframes addToList {
   from {
-    background: rgba(0,0,0,.0);
+    background: rgba(0, 0, 0, .0);
   }
-  50%{
-    background: rgba(123, 104, 238,.2);
+  50% {
+    background: rgba(123, 104, 238, .2);
   }
   to {
-    background: rgba(0,0,0,.0);
+    background: rgba(0, 0, 0, .0);
   }
 }
