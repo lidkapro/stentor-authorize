@@ -1,4 +1,4 @@
-import NavMenu from './NavMenu'
+import NavMenu from './components/NavMenu'
 import React from 'react'
 import {Route} from 'react-router-dom'
 import Groups from './components/Groups'
