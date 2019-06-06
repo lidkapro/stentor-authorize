@@ -5,7 +5,7 @@ import PopupFormName from './PopupFormName'
 import {observer} from 'mobx-react'
 
 
-const ListItems = observer(({title, form, visible, getData, getColumns, placeholder, sendRequest, handleCancel}) =>
+const ListItems = observer(({title, form, visible, getData, getColumns, placeholder,changeSortDate, sendRequest, handleCancel}) =>
     <section>
         <PopupFormName
             placeholder={placeholder}
@@ -16,6 +16,7 @@ const ListItems = observer(({title, form, visible, getData, getColumns, placehol
             sendRequest={sendRequest}
         />
         <Table
+            onChange={changeSortDate}
             size='middle'
             columns={getColumns}
             dataSource={getData}

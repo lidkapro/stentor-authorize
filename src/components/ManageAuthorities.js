@@ -21,7 +21,7 @@ class ManageAuthorities extends Component {
         return authorities.all.map((auth, i) => ({...auth, key: i}))
     }
 
-    getColumns() {
+    getColumns = () => {
         const {authorities, getOldName, getColumnSearchProps} = this.props
         const title = name => `Are you sure you want to delete ${name} authority?`
         const content = 'Authority cannot be restored'
@@ -41,8 +41,9 @@ class ManageAuthorities extends Component {
                 title: 'Created date',
                 dataIndex: 'createdDate',
                 key: 'createdDate',
-                sorter:(a,b) => moment(a.createdDate).format('DD.MM.YY HH:mm') - moment(b.createdDate).format('DD.MM.YY HH:mm'),
-                render: date => date ? <Moment format='DD.MM.YY HH:mm'>{date}</Moment> : <div/>
+                sorter: (a, b) => moment.utc(a.createdDate).diff(moment.utc(b.createdDate)),
+                render: date => date ? <Moment format='DD.MM.YY HH:mm'>{date}</Moment> : <div/>,
+                sortOrder: authorities.sortDate,
             },
             {
                 title: 'Modified by',
@@ -82,6 +83,7 @@ class ManageAuthorities extends Component {
                       sendRequest={name => authorities.createAuthority(name)}
                   />}>
                 <ListItems
+                    changeSortDate={authorities.changeSortDate}
                     visible={visible}
                     title="Rename authority"
                     placeholder='enter new name authority...'

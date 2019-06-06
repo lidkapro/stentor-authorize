@@ -7,12 +7,19 @@ class Authorities {
     @observable all = []
     @observable group = []
     @observable sortedByLetter = []
+    @observable sortDate = 'descend'
 
     @action
     cleanState = () => {
         this.all = []
         this.group = []
         this.sortedByLetter = []
+        this.sortDate = 'descend'
+    }
+
+    @action
+    changeSortDate = (a,b,sorter) => {
+        this.sortDate = sorter.order
     }
 
     @action
@@ -71,6 +78,7 @@ class Authorities {
         const authority = response.data.data['createAuthority']
         runInAction(() => {
             this.all = [...this.all, authority]
+            this.sortDate = 'descend'
         })
     }
 

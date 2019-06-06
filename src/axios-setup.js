@@ -9,8 +9,8 @@ if (csrfHeader && csrfContent) {
 axios.interceptors.response.use((response) => {
     const error = response.data.errors
     if (error) {
-        console.log(error)
-        return Promise.reject('При обработке запроса произошла ошибка. Попробуйте позднее')
+        alert(error[0].message)
+        return Promise.reject(error)
     }
     return response
 }, (error) => {
